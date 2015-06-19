@@ -1,7 +1,7 @@
 /**
  * Json extension Kit
  */
-package com.jfinal2.ext.kit;
+package com.jfinal.ext2.kit;
 
 import java.util.HashMap;
 import java.util.Iterator;

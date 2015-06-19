@@ -1,7 +1,7 @@
 /**
  * DDL making Kit
  */
-package com.jfinal2.ext.kit;
+package com.jfinal.ext2.kit;
 
 import java.util.ArrayList;
 import java.util.HashMap;

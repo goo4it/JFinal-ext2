@@ -1,11 +1,12 @@
 /**
  * 
  */
-package com.jfinal2.ext.config;
+package com.jfinal.ext2.config;
 
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 
 /**
@@ -38,7 +39,23 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 	 * @return
 	 */
 	public String getSaveDiretory(){
-		return (new StringBuilder("/var/upload/").append(this.getWebAppName()).toString());
+		String app = this.getWebAppName();
+		String baseDir = this.getProperty("savebasedir");
+		if (!baseDir.endsWith("/")) {
+			baseDir += "/";
+		}
+		return (new StringBuilder(baseDir).append(app).toString());
+	}
+	
+	/**
+	 * 获取app的dev mode
+	 * @return
+	 */
+	public Boolean getAppDevMode(){
+		if (this.prop == null) {
+			this.loadPropertyFile(cfg);
+		}
+		return this.getPropertyToBoolean("dev");
 	}
 	
 	/**
@@ -60,5 +77,22 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 		wall.setDbType(this.getProperty("dbtype"));
 		dp.addFilter(wall);
 		return dp;
+	}
+	
+	/**
+	 * 获取ActiveRecordPlugin 
+	 * @param dp DruidPlugin
+	 * @return
+	 */
+	public ActiveRecordPlugin getActiveRecordPlugin(DruidPlugin dp){
+		if (null == dp) {
+			throw new IllegalArgumentException("Please Call `getDruidPlugin` first");
+		}
+		if (this.prop == null) {
+			this.loadPropertyFile(cfg);
+		}
+		ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
+		arp.setShowSql(this.getPropertyToBoolean("showSql"));
+		return arp;
 	}
 }

@@ -12,7 +12,7 @@
        	|-- lib
         `-- pageviews
  */
-package com.jfinal2.ext.kit;
+package com.jfinal.ext2.kit;
 
 /**
  * @author BruceZCQ

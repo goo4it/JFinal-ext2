@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jfinal2.ext.validate;
+package com.jfinal.ext2.validate;
 
 import com.jfinal.core.Controller;
 

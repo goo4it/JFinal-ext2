@@ -1,7 +1,7 @@
 /**
  * RandomKit
  */
-package com.jfinal2.ext.kit;
+package com.jfinal.ext2.kit;
 
 import java.util.Random;
 import java.util.UUID;
