@@ -150,19 +150,17 @@ public class DDLKit {
 			this.columnName = columnName;
 			this.columnType = columnType;
 			
-			
-			
 			if (null == defaultValue) {
 				this.defaultValue.append("DEFAULT NULL");
 			}else{
-				String value = "".equals(defaultValue)?"''":"'"+defaultValue+"'";
+				String value = ("".equals(defaultValue)||"''".equals(defaultValue))?"''":"'"+defaultValue+"'";
 				this.defaultValue.append("NOT NULL DEFAULT ").append(value);
 			}
 			
-			if (!comment.startsWith("`")) {
+			if (!comment.startsWith("'")) {
 				comment = "'" + comment;
 			}
-			if (!comment.endsWith("`")) {
+			if (!comment.endsWith("'")) {
 				comment += "'";
 			}
 			this.comment = comment;

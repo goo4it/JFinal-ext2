@@ -1,5 +1,5 @@
 /**
- * 
+ * ActionExtentionHandler
  */
 package com.jfinal.ext2.handler;
 
@@ -9,8 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jfinal.handler.Handler;
 
 /**
- * @author 朱丛启
- * May 2, 201510:44:09 AM
+ * @author BruceZCQ
  */
 public class ActionExtentionHandler extends Handler {
 

@@ -6,7 +6,7 @@ package com.jfinal.ext2.validate;
 import com.jfinal.core.Controller;
 
 /**
- * @author 朱丛启  2015年4月29日 下午6:46:19
+ * @author BruceZCQ
  *
  */
 public class Validator extends com.jfinal.validate.Validator {
