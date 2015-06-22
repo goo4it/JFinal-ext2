@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.jfinal.plugin.spring;
+package com.jfinal.ext2.plugin.spring;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;

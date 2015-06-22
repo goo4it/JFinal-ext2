@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.jfinal.plugin.spring;
+package com.jfinal.ext2.plugin.spring;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
