@@ -5,9 +5,19 @@ package com.jfinal.ext2.config;
 
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
+import com.jfinal.config.Constants;
+import com.jfinal.config.Handlers;
+import com.jfinal.config.Interceptors;
+import com.jfinal.config.Plugins;
+import com.jfinal.config.Routes;
+import com.jfinal.ext.route.AutoBindRoutes;
+import com.jfinal.ext2.handler.ActionExtentionHandler;
+import com.jfinal.ext2.interceptor.NotFoundActionInterceptor;
+import com.jfinal.ext2.kit.PageViewKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.render.ViewType;
 
 /**
  * @author BruceZCQ
@@ -17,20 +27,112 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 	
 	private final static String cfg = "cfg.txt";
 	private String webAppName = null;
-
-	public String getWebAppName(){
-		if (StrKit.notBlank(webAppName)) {
-			return webAppName;
-		}
+	
+	/**
+	 * Config other More constant
+	 */
+	public abstract void configMoreConstants(Constants me);
+	
+	/**
+	 * Config other more route
+	 */
+	public abstract void configMoreRoutes(Routes me);
+	
+	/**
+	 * Config other more plugin
+	 */
+	public abstract void configMorePlugins(Plugins me);
+	
+	/**
+	 * Config other Tables Mapping
+	 */
+	public abstract void configTablesMapping(ActiveRecordPlugin arp);
+	
+	/**
+	 * Config other more interceptor applied to all actions.
+	 */
+	public abstract void configMoreInterceptors(Interceptors me);
+	
+	/**
+	 * Config other more handler
+	 */
+	public abstract void configMoreHandlers(Handlers me);
+	
+	/**
+	 * Config constant
+	 * 
+	 * Default <br/>
+	 * ViewType: JSP <br/>
+	 * Encoding: UTF-8 <br/>
+	 * ErrorPages: <br/>
+	 * 404 : /WEB-INF/errorpages/404.html <br/>
+	 * 500 : /WEB-INF/errorpages/500.html <br/>
+	 * 403 : /WEB-INF/errorpages/403.html <br/>
+	 * UploadedFileSaveDirectory : cfg basedir + WebappName <br/>
+	 */
+	public void configConstant(Constants me) {
+		me.setViewType(ViewType.JSP);
+		me.setDevMode(this.getAppDevMode());
+		me.setEncoding("UTF-8");
+		me.setError404View(PageViewKit.get404PageView());
+		me.setError500View(PageViewKit.get500PageView());
+		me.setError403View(PageViewKit.get403PageView());
+		//file save dir
+		me.setUploadedFileSaveDirectory(this.getSaveDiretory());
 		
-		if (this.prop == null) {
-			this.loadPropertyFile(cfg);
-		}
-		webAppName = this.getProperty("webappname");
-		if (StrKit.isBlank(webAppName)) {
-			throw new IllegalArgumentException("Please Set Your WebApp Name in Your cfg file");
-		}
-		return webAppName;
+		// config others
+		configMoreConstants(me);
+	}
+	
+	/**
+	 * Config route
+	 * Config the AutoBindRoutes
+	 * 自动bindRoute。controller命名为xxController。<br/>
+	 * AutoBindRoutes自动取xxController对应的class的Controller之前的xx作为controllerKey(path)<br/>
+	 * 如：MyUserController => myuser; UserController => user; UseradminController => useradmin<br/>
+	 */
+	public void configRoute(Routes me) {
+		me.add(new AutoBindRoutes());
+		
+		// config others
+		configMoreRoutes(me);
+	}
+	
+	/**
+	 * Config plugin
+	 */
+	public void configPlugin(Plugins me) {
+		DruidPlugin drp = this.getDruidPlugin();
+		ActiveRecordPlugin arp = this.getActiveRecordPlugin(drp);
+		
+		me.add(drp);
+		me.add(arp);
+		
+		// config others
+		configTablesMapping(arp);
+		configMorePlugins(me);
+	}
+	
+	/**
+	 * Config interceptor applied to all actions.
+	 */
+	public void configInterceptor(Interceptors me) {
+		// when action not found fire 404 error
+		me.add(new NotFoundActionInterceptor());
+
+		// config others
+		configMoreInterceptors(me);
+	}
+	
+	/**
+	 * Config handler
+	 */
+	public void configHandler(Handlers me) {
+		// add extension handler
+		me.add(new ActionExtentionHandler());
+		
+		// config others
+		configMoreHandlers(me);
 	}
 	
 	/**
@@ -57,13 +159,32 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 		}
 		return this.getPropertyToBoolean("dev");
 	}
+
+	/**
+	 * 获取 WebAppName
+	 * @return
+	 */
+	private String getWebAppName() {
+		if (StrKit.notBlank(webAppName)) {
+			return webAppName;
+		}
+		
+		if (this.prop == null) {
+			this.loadPropertyFile(cfg);
+		}
+		webAppName = this.getProperty("webappname");
+		if (StrKit.isBlank(webAppName)) {
+			throw new IllegalArgumentException("Please Set Your WebApp Name in Your cfg file");
+		}
+		return webAppName;
+	}
 	
 	/**
 	 * DruidPlugin
 	 * @param prop ： property
 	 * @return
 	 */
-	public DruidPlugin getDruidPlugin() {
+	private DruidPlugin getDruidPlugin() {
 		if (this.prop == null) {
 			this.loadPropertyFile(cfg);
 		}
@@ -84,7 +205,7 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 	 * @param dp DruidPlugin
 	 * @return
 	 */
-	public ActiveRecordPlugin getActiveRecordPlugin(DruidPlugin dp){
+	private ActiveRecordPlugin getActiveRecordPlugin(DruidPlugin dp){
 		if (null == dp) {
 			throw new IllegalArgumentException("Please Call `getDruidPlugin` first");
 		}
@@ -95,4 +216,5 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 		arp.setShowSql(this.getPropertyToBoolean("showSql"));
 		return arp;
 	}
+	
 }
