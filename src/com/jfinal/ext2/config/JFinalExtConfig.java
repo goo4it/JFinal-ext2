@@ -26,7 +26,9 @@ import com.jfinal.render.ViewType;
 public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 	
 	private final static String cfg = "cfg.txt";
-	private String webAppName = null;
+	
+	public static String WEB_APP_NAME = null;
+	public static Boolean DEV_MODE = false;
 	
 	/**
 	 * Config other More constant
@@ -79,6 +81,9 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 		me.setError403View(PageViewKit.get403PageView());
 		//file save dir
 		me.setUploadedFileSaveDirectory(this.getSaveDiretory());
+		
+		JFinalExtConfig.WEB_APP_NAME = this.getWebAppName();
+		JFinalExtConfig.DEV_MODE = this.getAppDevMode();
 		
 		// config others
 		configMoreConstants(me);
@@ -165,14 +170,11 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 	 * @return
 	 */
 	private String getWebAppName() {
-		if (StrKit.notBlank(webAppName)) {
-			return webAppName;
-		}
-		
 		if (this.prop == null) {
 			this.loadPropertyFile(cfg);
 		}
-		webAppName = this.getProperty("webappname");
+		
+		String webAppName = this.getProperty("webappname");
 		if (StrKit.isBlank(webAppName)) {
 			throw new IllegalArgumentException("Please Set Your WebApp Name in Your cfg file");
 		}
