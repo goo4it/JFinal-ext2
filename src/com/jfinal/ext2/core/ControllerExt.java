@@ -16,12 +16,12 @@ import com.oreilly.servlet.multipart.FileRenamePolicy;
 /**
  * @author BruceZCQ Jun 22, 20154:15:48 PM
  */
-public class Controller extends com.jfinal.core.Controller {
+public class ControllerExt extends com.jfinal.core.Controller {
 
 	private static final FileRenamePolicy fileRenamePolicy = new DefaultFileRenamePolicy();
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Controller() {
+	public ControllerExt() {
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
 			Field field = fields[i];

@@ -14,9 +14,9 @@ import java.util.Map;
 public abstract class Service {
 
 	private static Map<Class<? extends Service>, Service> INSTANCE_MAP = new HashMap<Class<? extends Service>, Service>();
-    protected Controller controller;
+    protected ControllerExt controller;
     
-	public static <Ser extends Service> Ser getInstance(Class<Ser> clazz, Controller controller) {
+	public static <Ser extends Service> Ser getInstance(Class<Ser> clazz, ControllerExt controller) {
 		Ser service = (Ser) INSTANCE_MAP.get(clazz);
 		if (service == null) {
 			try {
