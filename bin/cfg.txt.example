@@ -1,6 +1,7 @@
 #########
 ## DB　Config
 #########
+dbactive = true
 #production
 #dbUrl = product_host/db
 # testing

@@ -130,14 +130,17 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 	 * Config plugin
 	 */
 	public void configPlugin(Plugins me) {
-		DruidPlugin drp = this.getDruidPlugin();
-		ActiveRecordPlugin arp = this.getActiveRecordPlugin(drp);
 		
-		me.add(drp);
-		me.add(arp);
+		if (this.getDbActiveState()) {
+			DruidPlugin drp = this.getDruidPlugin();
+			ActiveRecordPlugin arp = this.getActiveRecordPlugin(drp);
+			
+			me.add(drp);
+			me.add(arp);
+			configTablesMapping(arp);
+		}
 		
 		// config others
-		configTablesMapping(arp);
 		configMorePlugins(me);
 	}
 	
@@ -174,6 +177,10 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 		if (!baseDir.endsWith("/")) {
 			baseDir += "/";
 		}
+		
+		if (!baseDir.endsWith("uploads")) {
+			baseDir += "uploads/";
+		}
 		return (new StringBuilder(baseDir).append(app).toString());
 	}
 	
@@ -205,6 +212,18 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 	}
 	
 	/**
+	 * 获取是否打开数据库状态
+	 * @return
+	 */
+	private Boolean getDbActiveState(){
+		if (this.prop == null) {
+			this.loadPropertyFile(cfg);
+		}
+		
+		return this.getPropertyToBoolean("dbactive");
+	}
+	
+	/**
 	 * DruidPlugin
 	 * @param prop ： property
 	 * @return
@@ -213,6 +232,7 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 		if (this.prop == null) {
 			this.loadPropertyFile(cfg);
 		}
+		
 		DruidPlugin dp = new DruidPlugin("jdbc:mysql://"+this.getProperty("dbUrl"),
 				this.getProperty("user"),
 				this.getProperty("password"));
