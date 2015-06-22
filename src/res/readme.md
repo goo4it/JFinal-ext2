@@ -1,7 +1,7 @@
 说明
 1. 数据连接
-	参考 db_connection.txt;
-2. db_connection.txt 组成
+	参考 cfg.txt;
+2. cfg.txt 组成
 	2.1 测试模块
 	2.2 生成模块
 	2.3 包含内容
