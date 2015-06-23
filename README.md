@@ -30,3 +30,10 @@
 5. com.jfinal.ext2.validate.Validator
 
 	默认开启短路，校验失败403
+
+6. 加入多个文件上传的FileRenamePolicy
+	
+	6.1 CustomNameFileRenamePolicy 自定义文件名称
+	6.2 CustomParentDirFileRenamePolicy 自定义上级目录名称
+	6.3 DateRandomFileRenamePolicy 按照时间分割目录
+	6.4 RandomFileRenamePolicy 随机文件名称

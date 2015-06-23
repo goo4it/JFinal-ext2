@@ -8,7 +8,9 @@ import java.math.BigInteger;
 import java.util.List;
 
 import com.jfinal.ext.kit.Reflect;
-import com.jfinal.upload.OreillyCos;
+import com.jfinal.ext2.upload.MultipartRequestExt;
+import com.jfinal.ext2.upload.OreillyCosExt;
+import com.jfinal.upload.MultipartRequest;
 import com.jfinal.upload.UploadFile;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
@@ -19,6 +21,7 @@ import com.oreilly.servlet.multipart.FileRenamePolicy;
 public class ControllerExt extends com.jfinal.core.Controller {
 
 	private static final FileRenamePolicy fileRenamePolicy = new DefaultFileRenamePolicy();
+	private MultipartRequestExt multipartRequest = null;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ControllerExt() {
@@ -47,25 +50,33 @@ public class ControllerExt extends com.jfinal.core.Controller {
 	 */
 	public List<UploadFile> getFiles(String saveDirectory, Integer maxPostSize,
 			String encoding, FileRenamePolicy fileRenamePolicy) {
-		OreillyCos.setFileRenamePolicy(fileRenamePolicy);
-		return super.getFiles(saveDirectory, maxPostSize, encoding);
+		OreillyCosExt.setFileRenamePolicy(fileRenamePolicy);
+		if (this.getRequest() instanceof MultipartRequest == false)
+			multipartRequest = new MultipartRequestExt(this.getRequest(), saveDirectory, maxPostSize, encoding);
+		return multipartRequest.getFiles();
 	}
 	
 	public List<UploadFile> getFiles(String saveDirectory, int maxPostSize,
 			FileRenamePolicy fileRenamePolicy) {
-		OreillyCos.setFileRenamePolicy(fileRenamePolicy);
-		return super.getFiles(saveDirectory, maxPostSize);
+		OreillyCosExt.setFileRenamePolicy(fileRenamePolicy);
+		if (this.getRequest() instanceof MultipartRequest == false)
+			multipartRequest = new MultipartRequestExt(this.getRequest(), saveDirectory, maxPostSize);
+		return multipartRequest.getFiles();
 	}
 
 	public List<UploadFile> getFiles(String saveDirectory,
 			FileRenamePolicy fileRenamePolicy) {
-		OreillyCos.setFileRenamePolicy(fileRenamePolicy);
-		return super.getFiles(saveDirectory);
+		OreillyCosExt.setFileRenamePolicy(fileRenamePolicy);
+		if (this.getRequest() instanceof MultipartRequest == false)
+			multipartRequest = new MultipartRequestExt(this.getRequest(), saveDirectory);
+		return multipartRequest.getFiles();
 	}
 	
 	public List<UploadFile> getFiles(FileRenamePolicy fileRenamePolicy) {
-		OreillyCos.setFileRenamePolicy(fileRenamePolicy);
-		return super.getFiles();
+		OreillyCosExt.setFileRenamePolicy(fileRenamePolicy);
+		if (this.getRequest() instanceof MultipartRequest == false)
+			multipartRequest = new MultipartRequestExt(this.getRequest());
+		return multipartRequest.getFiles();
 	}
 	
 	/**

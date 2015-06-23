@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jfinal.ext2.upload.fileRenamePolicy;
+package com.jfinal.ext2.upload.filerenamepolicy;
 
 import java.io.File;
 
@@ -46,5 +46,20 @@ public abstract class FileRenamePolicyWrapper implements FileRenamePolicy {
 
 	public void setSaveDirectory(String saveDirectory) {
 		this.saveDirectory = saveDirectory;
+	}
+	
+	/**
+	 * Add File Separator
+	 * @param path
+	 */
+	public String appendFileSeparator(String path){
+		if (null == path) {
+			return File.separator;
+		}
+		// add "/" postfix
+		if (!path.endsWith("/") && !path.endsWith("\\")) {
+			path = path + File.separator;
+		}
+		return path;
 	}
 }

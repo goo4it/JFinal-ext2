@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jfinal.ext2.upload.fileRenamePolicy;
+package com.jfinal.ext2.upload.filerenamepolicy;
 
 import java.io.File;
 
@@ -18,11 +18,12 @@ public class DateRandomFileRenamePolicy extends FileRenamePolicyWrapper {
 	public File nameProcess(File f, String name, String ext) {
 		String rename = RandomKit.randomMD5Str();
 		String path = f.getParent();
-		if (!path.endsWith("/")) {
-			path += "/";
-		}
+		
+		// add "/" postfix
+		path = this.appendFileSeparator(path);
+
 		//add year month day
-		path += DateTimeKit.formatNowToStyle("yyyy/M/d");
+		path += DateTimeKit.formatNowToStyle("yyyy"+File.separator+"M"+File.separator+"d");
 		File file = new File(path);
 		if (!file.exists()) {
 			file.mkdirs();

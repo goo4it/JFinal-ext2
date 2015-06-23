@@ -37,6 +37,7 @@ import com.jfinal.ext.route.AutoBindRoutes;
 import com.jfinal.ext2.handler.ActionExtentionHandler;
 import com.jfinal.ext2.interceptor.NotFoundActionInterceptor;
 import com.jfinal.ext2.kit.PageViewKit;
+import com.jfinal.ext2.upload.OreillyCosExt;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
@@ -82,6 +83,11 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 	 * Config other more handler
 	 */
 	public abstract void configMoreHandlers(Handlers me);
+
+	/**
+	 * After JFinalStarted
+	 */
+	public abstract void afterJFinalStarted();
 	
 	/**
 	 * Config constant
@@ -110,6 +116,7 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 		
 		// config others
 		configMoreConstants(me);
+		this.initOreillyCosExt(me);
 	}
 	
 	/**
@@ -166,14 +173,28 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 		configMoreHandlers(me);
 	}
 	
+	public void afterJFinalStart() {
+		super.afterJFinalStart();
+		this.afterJFinalStarted();
+	}
+	
+	/**
+	 * Init OreillyCosExt
+	 */
+	private void initOreillyCosExt(Constants me) {
+		OreillyCosExt.init(me.getUploadedFileSaveDirectory(), 
+				me.getMaxPostSize(), me.getEncoding());
+	}
+	
 	/**
 	 * 获取File Save Directory
 	 * "/var/upload/webappname"
 	 * @return
 	 */
-	public String getSaveDiretory(){
+	private String getSaveDiretory(){
 		String app = this.getWebAppName();
 		String baseDir = this.getProperty("savebasedir");
+		
 		if (!baseDir.endsWith("/")) {
 			baseDir += "/";
 		}
@@ -188,7 +209,7 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 	 * 获取app的dev mode
 	 * @return
 	 */
-	public Boolean getAppDevMode(){
+	private Boolean getAppDevMode(){
 		if (this.prop == null) {
 			this.loadPropertyFile(cfg);
 		}
@@ -261,5 +282,5 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 		arp.setShowSql(this.getPropertyToBoolean("showSql"));
 		return arp;
 	}
-	
+
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jfinal.ext2.upload.fileRenamePolicy;
+package com.jfinal.ext2.upload.filerenamepolicy;
 
 import java.io.File;
 
