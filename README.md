@@ -37,3 +37,6 @@
 	6.2 CustomParentDirFileRenamePolicy 自定义上级目录名称
 	6.3 DateRandomFileRenamePolicy 按照时间分割目录
 	6.4 RandomFileRenamePolicy 随机文件名称
+
+
+Demo ： [http://git.oschina.net/brucezcq/JFinal-Ext2-Demo](http://git.oschina.net/brucezcq/JFinal-Ext2-Demo)
