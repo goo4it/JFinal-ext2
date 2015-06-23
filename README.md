@@ -2,7 +2,7 @@
 
 基于JFinal 2.0加入一些kit，它们有
 
-1. 扩展JFinalConfig=> JFinalExtConfig
+1. 扩展JFinalConfig=> JFinalConfigExt
 
 	1.1 给每一个app设置一个name；
 
