@@ -47,7 +47,7 @@ import com.jfinal.render.ViewType;
  * @author BruceZCQ
  *
  */
-public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
+public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	
 	private final static String cfg = "cfg.txt";
 	
@@ -111,8 +111,8 @@ public abstract class JFinalExtConfig extends com.jfinal.config.JFinalConfig {
 		//file save dir
 		me.setUploadedFileSaveDirectory(this.getSaveDiretory());
 		
-		JFinalExtConfig.WEB_APP_NAME = this.getWebAppName();
-		JFinalExtConfig.DEV_MODE = this.getAppDevMode();
+		JFinalConfigExt.WEB_APP_NAME = this.getWebAppName();
+		JFinalConfigExt.DEV_MODE = this.getAppDevMode();
 		
 		// config others
 		configMoreConstants(me);
