@@ -9,7 +9,7 @@ import com.jfinal.core.Controller;
  * @author BruceZCQ
  *
  */
-public class Validator extends com.jfinal.validate.Validator {
+public class ValidatorExt extends com.jfinal.validate.Validator {
 	
 	@Override
 	protected void validate(Controller c) {
