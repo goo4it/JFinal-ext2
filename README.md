@@ -27,7 +27,7 @@
 
 	...
 
-5. com.jfinal.ext2.validate.Validator
+5. com.jfinal.ext2.validate.ValidatorExt
 
 	默认开启短路，校验失败403
 
