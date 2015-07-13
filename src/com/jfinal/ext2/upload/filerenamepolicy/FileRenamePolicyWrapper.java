@@ -44,7 +44,7 @@ public abstract class FileRenamePolicyWrapper implements FileRenamePolicy {
 		return saveDirectory;
 	}
 
-	public void setSaveDirectory(String saveDirectory) {
+	protected void setSaveDirectory(String saveDirectory) {
 		this.saveDirectory = saveDirectory;
 	}
 	
@@ -56,6 +56,11 @@ public abstract class FileRenamePolicyWrapper implements FileRenamePolicy {
 		if (null == path) {
 			return File.separator;
 		}
+		// add "/" prefix
+		if (!path.startsWith("/") && !path.startsWith("\\")) {
+			path = File.separator + path;
+		}
+				
 		// add "/" postfix
 		if (!path.endsWith("/") && !path.endsWith("\\")) {
 			path = path + File.separator;

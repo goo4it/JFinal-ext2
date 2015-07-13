@@ -29,22 +29,22 @@ public class CustomParentDirFileRenamePolicy extends
 			throw new IllegalArgumentException("Please Set Custom ParentDir Name!");
 		}
 		
-		String path = f.getParent();
-		
 		// add "/" postfix
-		path = this.appendFileSeparator(path);
+		StringBuilder path = new StringBuilder(this.appendFileSeparator(f.getParent()));
 		
-		path += this.parentDir;
-		File file = new File(path);
+		path.append(this.parentDir);
+		
+		String _path = path.toString();
+		File file = new File(_path);
 		if (!file.exists()) {
 			file.mkdirs();
 		}
-		this.setSaveDirectory(path);
+		this.setSaveDirectory(_path);
 		
 		if (this.namepolicy == NamePolicy.RANDOM_NAME) {
 			name = RandomKit.randomMD5Str();
 		} 
-		return (new File(path,name+ext));
+		return (new File(_path,name+ext));
 	}
 
 }
