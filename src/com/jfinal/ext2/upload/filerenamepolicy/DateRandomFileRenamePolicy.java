@@ -5,6 +5,7 @@ package com.jfinal.ext2.upload.filerenamepolicy;
 
 import java.io.File;
 
+import com.jfinal.ext2.config.JFinalConfigExt;
 import com.jfinal.ext2.kit.DateTimeKit;
 import com.jfinal.ext2.kit.RandomKit;
 import com.jfinal.kit.StrKit;
@@ -15,57 +16,73 @@ import com.jfinal.kit.StrKit;
  */
 public class DateRandomFileRenamePolicy extends FileRenamePolicyWrapper {
 	
-	private String subSaveDirRefDate = null;
 	private String parentDir = null;
+	private String appParentDateDir = null;
+	private String parentDateDir = null;
 	
 	public DateRandomFileRenamePolicy() {
 		this(null);
 	}
 	
 	public DateRandomFileRenamePolicy(String parentDir) {
-		this.parentDir = parentDir;
+		this.parentDir = this.appendFileSeparator(parentDir);
 	}
 
 	@Override
 	public File nameProcess(File f, String name, String ext) {
 		String rename = RandomKit.randomMD5Str();
-		String fileName = rename + ext;
 		// add "/" postfix
-		StringBuilder path = new StringBuilder(this.appendFileSeparator(f.getParent()));
+		StringBuilder path = new StringBuilder(f.getParent());
 
 		// append parent dir
 		if (StrKit.notBlank(this.parentDir)) {
-			path.append(this.appendFileSeparator(this.parentDir));
+			path.append(this.parentDir);
 		}
 		
 		//append year month day
 		String ymdSubDir = DateTimeKit.formatNowToStyle("yyyy"+File.separator+"M"+File.separator+"d");
 		path.append(ymdSubDir);
 		
-		// yyyy/M/d/filename.jpg
-		this.setSubSaveDirRefDate(this.appendFileSeparator(ymdSubDir)+File.separator+fileName);
+		String parentDateDir = this.parentDir+ymdSubDir+File.separator;
+		this.setParentDateDir(parentDateDir);
+
+		this.setAppParentDateDir(File.separator+JFinalConfigExt.WEB_APP_NAME+parentDateDir);
 		
 		String _path = path.toString();
+		this.setSaveDirectory(_path);
+		
+		String fileName = rename + ext;
+		
 		File file = new File(_path);
 		if (!file.exists()) {
 			file.mkdirs();
 		}
-		this.setSaveDirectory(_path);
-		return (new File(_path,fileName));
+
+		return (new File(_path, fileName));
 	}
 
 	/**
-	 * @return the subSaveDirRefDate
+	 * 返回时间目录 /WebAppName/ParentDir/2015/7/22/
+	 * @return the appParentDateDir
 	 */
-	public String getSubSaveDirRefDate() {
-		return subSaveDirRefDate;
+	public String getAppParentDateDir() {
+		return appParentDateDir;
+	}
+
+	protected void setAppParentDateDir(String appParentDateDir) {
+		this.appParentDateDir = appParentDateDir;
 	}
 
 	/**
-	 * @param subSaveDirRefDate the subSaveDirRefDate to set
+	 * 返回时间目录 /ParentDir/2015/7/22/
+	 * @return the parentDateDir
 	 */
-	private void setSubSaveDirRefDate(String subSaveDirRefDate) {
-		this.subSaveDirRefDate = subSaveDirRefDate;
+	public String getParentDateDir() {
+		return parentDateDir;
+	}
+
+	protected void setParentDateDir(String parentDateDir) {
+		this.parentDateDir = parentDateDir;
 	}
 
 }
