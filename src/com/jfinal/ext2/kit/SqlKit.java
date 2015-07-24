@@ -49,7 +49,10 @@ public class SqlKit {
 		if (!sql.toString().startsWith(SqlKit.select)) {
 			sql.append(SqlKit.select).append(SqlKit.sapce);
 		}
-		sql.append(col).append(SqlKit.sapce).append(as);
+		if (!sql.toString().startsWith(",")) {
+			sql.append(",");
+		}
+		sql.append(col).append(SqlKit.sapce).append(as).append(SqlKit.sapce);
 		return this;
 	}
 	
