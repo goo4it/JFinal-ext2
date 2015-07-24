@@ -8,8 +8,6 @@ package com.jfinal.ext2.kit;
  *
  */
 public class SqlKit {
-
-	private  StringBuilder sql = null;
 	
 	public static final String select = "SELECT";
 	public static final String from = "FROM";
@@ -18,7 +16,31 @@ public class SqlKit {
 	public static final String or = "OR";
 	public static final String orderby = "ORDER BY";
 	public static final String limit = "LIMIT";
+
 	private static final String sapce = " ";
+	private StringBuilder sql = null;
+
+	private SqlKit orderBy(String condition, ORDER order){
+		sql.append(SqlKit.orderby).append(SqlKit.sapce).append(condition).append(SqlKit.sapce).append(order.toString());
+		return this;
+	}
+	
+	public static class Column {
+		
+		private String colName = null;
+		private String as = null;
+		
+		public Column(String colName, String as) {
+			this.colName = colName;
+			this.as = as;
+		}
+		
+		public String column() {
+			return new StringBuilder(this.colName).append(SqlKit.sapce).append(this.as).toString();
+		}
+	}
+
+	//==========================
 	
 	public enum ORDER{
 		DESC,
@@ -29,15 +51,14 @@ public class SqlKit {
 		sql = new StringBuilder();
 	}
 	
-	
 	public SqlKit select(String... selects){
-		int index = 0;
 		sql.append(SqlKit.select).append(SqlKit.sapce);
+		int index = 0;
 		for (String string : selects) {
 			sql.append(string);
-			if (index != selects.length-1) {
-				sql.append(",");
-			}else{
+			if (index != selects.length - 1) {
+				sql.append(",").append(SqlKit.sapce);
+			} else {
 				sql.append(SqlKit.sapce);
 			}
 			index++;
@@ -45,24 +66,32 @@ public class SqlKit {
 		return this;
 	}
 	
-	public SqlKit select(String col, String as){
-		if (!sql.toString().startsWith(SqlKit.select)) {
-			sql.append(SqlKit.select).append(SqlKit.sapce);
+	public Column column(String col, String as) {
+		return new Column(col, as);
+	}
+	
+	public SqlKit select(Column... cols) {
+		sql.append(SqlKit.select).append(SqlKit.sapce);
+		int index = 0;
+		for (Column col : cols) {
+			sql.append(col.column());
+			if (index != cols.length - 1) {
+				sql.append(",").append(SqlKit.sapce);
+			} else {
+				sql.append(SqlKit.sapce);
+			}
+			index++;
 		}
-		if (!sql.toString().startsWith(",")) {
-			sql.append(",");
-		}
-		sql.append(col).append(SqlKit.sapce).append(as).append(SqlKit.sapce);
 		return this;
 	}
 	
 	public SqlKit from(String... tableNames){
-		int index = 0;
 		sql.append(SqlKit.from).append(SqlKit.sapce);
+		int index = 0;
 		for (String string : tableNames) {
 			sql.append(string);
 			if (index != tableNames.length - 1) {
-				sql.append(",");
+				sql.append(",").append(SqlKit.sapce);
 			}else {
 				sql.append(SqlKit.sapce);
 			}
@@ -86,11 +115,6 @@ public class SqlKit {
 		return this;
 	}
 	
-	private SqlKit orderBy(String condition, ORDER order){
-		sql.append(SqlKit.orderby).append(SqlKit.sapce).append(condition).append(SqlKit.sapce).append(order.toString());
-		return this;
-	}
-	
 	public SqlKit ascOrderBy(String condition) {
 		return this.orderBy(condition, ORDER.ASC);
 	}
@@ -99,8 +123,8 @@ public class SqlKit {
 		return this.orderBy(condition, ORDER.DESC);
 	}
 
-	public SqlKit limit(String arg) {
-		sql.append(SqlKit.sapce).append(SqlKit.limit).append(SqlKit.sapce).append(arg);
+	public SqlKit limit(String param) {
+		sql.append(SqlKit.sapce).append(SqlKit.limit).append(SqlKit.sapce).append(param);
 		return this;
 	}
 	
