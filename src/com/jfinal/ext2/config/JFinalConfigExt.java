@@ -33,6 +33,7 @@ import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
+import com.jfinal.ext.plugin.tablebind.AutoTableBindPlugin;
 import com.jfinal.ext.route.AutoBindRoutes;
 import com.jfinal.ext2.handler.ActionExtentionHandler;
 import com.jfinal.ext2.interceptor.NotFoundActionInterceptor;
@@ -72,7 +73,7 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	/**
 	 * Config other Tables Mapping
 	 */
-	public abstract void configTablesMapping(ActiveRecordPlugin arp);
+	public abstract void configTablesMapping(String configName, ActiveRecordPlugin arp);
 	
 	/**
 	 * Config other more interceptor applied to all actions.
@@ -139,12 +140,19 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	public void configPlugin(Plugins me) {
 		
 		if (this.getDbActiveState()) {
-			DruidPlugin drp = this.getDruidPlugin();
-			ActiveRecordPlugin arp = this.getActiveRecordPlugin(drp);
-			
-			me.add(drp);
-			me.add(arp);
-			configTablesMapping(arp);
+			for (Integer index = 1; index <= this.getDataSourceCount(); index++) {
+				DruidPlugin drp = this.getDruidPlugin(index);
+				String configName = this.getDataSouceConfigNameAtIndex(index);
+				me.add(drp);
+				if (this.getDataSouceAutoTableBindStateAtIndex(index)) {
+					AutoTableBindPlugin atb = new AutoTableBindPlugin(configName, drp);
+					me.add(atb);
+				}else{
+					ActiveRecordPlugin arp = this.getActiveRecordPlugin(configName, drp);
+					me.add(arp);
+					configTablesMapping(configName, arp);
+				}
+			}
 		}
 		
 		// config others
@@ -245,16 +253,50 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	}
 	
 	/**
+	 * 是否开启AutoTableBind
+	 * @return
+	 */
+	private Boolean getDataSouceAutoTableBindStateAtIndex(Integer index) {
+		if (this.prop == null) {
+			this.loadPropertyFile(cfg);
+		}
+		return this.getPropertyToBoolean("autotablebind"+index);
+	}
+	
+	/**
+	 * 获取数据源数量
+	 * @return
+	 */
+	private Integer getDataSourceCount() {
+		if (this.prop == null) {
+			this.loadPropertyFile(cfg);
+		}
+		return this.getPropertyToInt("datasourcecnt");
+	}
+	
+	/**
+	 * 获取数据源configname
+	 * @param index
+	 * @return
+	 */
+	private String getDataSouceConfigNameAtIndex(Integer index) {
+		if (this.prop == null) {
+			this.loadPropertyFile(cfg);
+		}
+		return this.getProperty("configname"+index);
+	}
+	
+	/**
 	 * DruidPlugin
 	 * @param prop ： property
 	 * @return
 	 */
-	private DruidPlugin getDruidPlugin() {
+	private DruidPlugin getDruidPlugin(Integer index) {
 		if (this.prop == null) {
 			this.loadPropertyFile(cfg);
 		}
 		
-		DruidPlugin dp = new DruidPlugin("jdbc:mysql://"+this.getProperty("dbUrl"),
+		DruidPlugin dp = new DruidPlugin("jdbc:mysql://"+this.getProperty("dbUrl"+index),
 				this.getProperty("user"),
 				this.getProperty("password"));
 		dp.setInitialSize(this.getPropertyToInt("initsize"));
@@ -271,14 +313,14 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	 * @param dp DruidPlugin
 	 * @return
 	 */
-	private ActiveRecordPlugin getActiveRecordPlugin(DruidPlugin dp){
+	private ActiveRecordPlugin getActiveRecordPlugin(String cfgName, DruidPlugin dp){
 		if (null == dp) {
 			throw new IllegalArgumentException("Please Call `getDruidPlugin` first");
 		}
 		if (this.prop == null) {
 			this.loadPropertyFile(cfg);
 		}
-		ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
+		ActiveRecordPlugin arp = new ActiveRecordPlugin(cfgName, dp);
 		arp.setShowSql(this.getPropertyToBoolean("showSql"));
 		return arp;
 	}

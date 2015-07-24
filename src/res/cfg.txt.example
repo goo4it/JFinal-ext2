@@ -2,10 +2,16 @@
 ## DB　Config
 #########
 dbactive = true
-#production
-#dbUrl = product_host/db
-# testing
-dbUrl = testing_host/db
+datasourcecnt = 1
+
+# datasouce 
+# autotablebind1 = true,使用 AutoTableBindPlugin
+# autotablebind1 = false, 使用ActiveRecordPlugin
+autotablebind1 = false
+configname1 = config1
+dbUrl1 = testing_host/db
+
+# common data base setting
 user = 
 password = 
 initsize = 6
