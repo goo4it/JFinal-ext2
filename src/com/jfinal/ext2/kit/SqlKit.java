@@ -45,6 +45,14 @@ public class SqlKit {
 		return this;
 	}
 	
+	public SqlKit select(String col, String as){
+		if (!sql.toString().startsWith(SqlKit.select)) {
+			sql.append(SqlKit.select).append(SqlKit.sapce);
+		}
+		sql.append(col).append(SqlKit.sapce).append(as);
+		return this;
+	}
+	
 	public SqlKit from(String... tableNames){
 		int index = 0;
 		sql.append(SqlKit.from).append(SqlKit.sapce);
