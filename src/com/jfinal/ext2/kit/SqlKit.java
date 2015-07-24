@@ -20,6 +20,11 @@ public class SqlKit {
 	private static final String sapce = " ";
 	private StringBuilder sql = null;
 
+	private enum ORDER{
+		DESC,
+		ASC
+	};
+	
 	private SqlKit orderBy(String condition, ORDER order){
 		sql.append(SqlKit.orderby).append(SqlKit.sapce).append(condition).append(SqlKit.sapce).append(order.toString());
 		return this;
@@ -41,11 +46,6 @@ public class SqlKit {
 	}
 
 	//==========================
-	
-	public enum ORDER{
-		DESC,
-		ASC
-	};
 	
 	public SqlKit(){
 		sql = new StringBuilder();
@@ -123,8 +123,23 @@ public class SqlKit {
 		return this.orderBy(condition, ORDER.DESC);
 	}
 
-	public SqlKit limit(String param) {
-		sql.append(SqlKit.sapce).append(SqlKit.limit).append(SqlKit.sapce).append(param);
+	public SqlKit limit(String... params) {
+		if (params.length > 2) {
+			throw new IllegalArgumentException("more params");
+		}
+		
+		sql.append(SqlKit.sapce).append(SqlKit.limit).append(SqlKit.sapce);
+		
+		int index = 0;
+		for (String param : params) {
+			sql.append(param);
+			if (index != params.length - 1) {
+				sql.append(",").append(SqlKit.sapce);
+			}else {
+				sql.append(SqlKit.sapce);
+			}
+			index++;
+		}
 		return this;
 	}
 	

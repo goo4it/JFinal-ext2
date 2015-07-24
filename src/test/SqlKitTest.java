@@ -15,7 +15,7 @@ public class SqlKitTest {
 		kit = new SqlKit();
 		
 		kit.select(kit.column("id", "uid"),
-				kit.column("username", "name")).from("bame as","asas a").where("a = b");
+				kit.column("username", "name")).from("bame as","asas a").where("a = b").ascOrderBy("ass").limit("12","1223");
 		
 		System.out.println(kit.sql());
 	}
