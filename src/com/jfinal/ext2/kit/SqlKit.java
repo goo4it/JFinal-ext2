@@ -30,12 +30,12 @@ public class SqlKit {
 	}
 	
 	
-	public SqlKit select(String... args){
+	public SqlKit select(String... selects){
 		int index = 0;
 		sql.append(SqlKit.select).append(SqlKit.sapce);
-		for (String string : args) {
+		for (String string : selects) {
 			sql.append(string);
-			if (index != args.length-1) {
+			if (index != selects.length-1) {
 				sql.append(",");
 			}else{
 				sql.append(SqlKit.sapce);
@@ -45,8 +45,18 @@ public class SqlKit {
 		return this;
 	}
 	
-	public SqlKit from(String tableName){
-		sql.append(SqlKit.from).append(SqlKit.sapce).append(tableName).append(SqlKit.sapce);
+	public SqlKit from(String... tableNames){
+		int index = 0;
+		sql.append(SqlKit.from).append(SqlKit.sapce);
+		for (String string : tableNames) {
+			sql.append(string);
+			if (index != tableNames.length - 1) {
+				sql.append(",");
+			}else {
+				sql.append(SqlKit.sapce);
+			}
+			index++;
+		}
 		return this;
 	}
 	
