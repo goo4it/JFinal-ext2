@@ -326,6 +326,42 @@ public class DateTimeKit {
 		return sdf.format(unixtime);
 	}
 	
+	/**
+	 * 格式化时间戳为制定的short 24hour style
+	 * @param unixtime
+	 * @return
+	 */
+	public static String formatUnixTimeToShort24HRStyle(BigInteger unixtime){
+		return DateTimeKit.formatUnixTime(DateTimeKit.DATE_TIME_24HR_STYLE, unixtime);
+	}
+	
+	/**
+	 * 格式化时间戳为制定的24hour style
+	 * @param unixtime
+	 * @return
+	 */
+	public static String formatUnixTimeTo24HRStyle(BigInteger unixtime){
+		return DateTimeKit.formatUnixTime(DateTimeKit.FULL_DATE_24HR_STYLE, unixtime);
+	}
+	
+	/**
+	 * 格式化时间戳为制定的short 12hour style
+	 * @param unixtime
+	 * @return
+	 */
+	public static String formatUnixTimeToShort12HRStyle(BigInteger unixtime){
+		return DateTimeKit.formatUnixTime(DateTimeKit.DATE_TIME_12HR_STYLE, unixtime);
+	}
+	
+	/**
+	 * 格式化时间戳为制定的12hour style
+	 * @param unixtime
+	 * @return
+	 */
+	public static String formatUnixTimeTo12HRStyle(BigInteger unixtime){
+		return DateTimeKit.formatUnixTime(DateTimeKit.FULL_DATE_12HR_STYLE, unixtime);
+	}
+	
 	/*=============================================TO Date ===================*/
 	
 	/**
@@ -420,5 +456,23 @@ public class DateTimeKit {
 	 */
 	public static Long getCurrentUnixTime(){
 		return System.currentTimeMillis()/1000;
+	}
+	
+	/**
+	 * 把time转为 unix time 到毫秒
+	 * @param time
+	 * @return
+	 */
+	public static BigInteger getUnixTimeMillis(BigInteger time) {
+		return time.multiply(new BigInteger("1000"));
+	}
+	
+	/**
+	 * 把time转为 unix time 到毫秒
+	 * @param time
+	 * @return
+	 */
+	public static BigInteger getUnixTimeMillis(Long time) {
+		return new BigInteger(String.valueOf(time * 1000L));
 	}
 }
