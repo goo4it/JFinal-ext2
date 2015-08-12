@@ -14,9 +14,9 @@ import com.jfinal.handler.Handler;
 public class ActionExtentionHandler extends Handler {
 
 	// 伪静态处理
-	public static String htmlExt = ".html";
-	public static String htmExt = ".htm";
-	public static String jsonExt = ".json";
+	public static final String htmlExt = ".html";
+	public static final String htmExt = ".htm";
+	public static final String jsonExt = ".json";
 	
 	private int len = ActionExtentionHandler.htmlExt.length();
 	private String actionExt = ActionExtentionHandler.htmlExt;
