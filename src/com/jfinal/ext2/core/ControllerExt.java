@@ -16,7 +16,7 @@ import com.oreilly.servlet.multipart.FileRenamePolicy;
 /**
  * @author BruceZCQ Jun 22, 20154:15:48 PM
  */
-public class ControllerExt extends com.jfinal.core.Controller {
+public abstract class ControllerExt extends com.jfinal.core.Controller {
 
 	private static final FileRenamePolicy fileRenamePolicy = new DefaultFileRenamePolicy();
 
@@ -174,4 +174,10 @@ public class ControllerExt extends com.jfinal.core.Controller {
 			return defaultValue;
 		return (new BigInteger(value));
 	}
+	
+	/**
+	 * Reflect Exception
+	 * @param e
+	 */
+	public abstract void onExceptionError(Exception e);
 }
