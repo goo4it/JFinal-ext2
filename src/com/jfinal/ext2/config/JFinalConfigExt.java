@@ -186,20 +186,25 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	
 	/**
 	 * 获取File Save Directory
-	 * "/var/upload/webappname"
+	 * "/var/uploads/webappname"
 	 * @return
 	 */
 	private String getSaveDiretory(){
 		String app = this.getWebAppName();
 		String baseDir = this.getProperty("savebasedir");
 		
-		if (!baseDir.endsWith("/")) {
-			baseDir += "/";
+		if (baseDir.endsWith("/")) {
+			if (!baseDir.endsWith("uploads/")) {
+				baseDir += "uploads/";	
+			}
+		}else{
+			if (!baseDir.endsWith("uploads")) {
+				baseDir += "/uploads/";
+			}else{
+				baseDir += "/";
+			}
 		}
 		
-		if (!baseDir.endsWith("uploads")) {
-			baseDir += "uploads/";
-		}
 		return (new StringBuilder(baseDir).append(app).toString());
 	}
 	
