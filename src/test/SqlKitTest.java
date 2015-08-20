@@ -22,6 +22,9 @@ public class SqlKitTest {
 		kit = new SqlKit();
 		kit.update("user").set("name","zcq","addr","北京").where("name = "+"'s'");
 		System.out.println(kit.sql());
+		kit = new SqlKit();
+		kit.insert("user").values("name","zcq","addr","北京");
+		System.out.println(kit.sql());
 		
 		String baseDir = "/var/uploads";
 //		if (baseDir.endsWith("/")) {
