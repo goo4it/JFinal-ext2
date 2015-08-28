@@ -24,6 +24,6 @@ showSql = true
 # is dev mode
 dev = true
 # file save directory
-savebasedir = /var/upload
+savebasedir = /var/uploads
 #current app name
 webappname = 

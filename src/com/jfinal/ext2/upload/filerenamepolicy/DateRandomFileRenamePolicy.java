@@ -19,6 +19,7 @@ public class DateRandomFileRenamePolicy extends FileRenamePolicyWrapper {
 	private String parentDir = null;
 	private String appParentDateDir = null;
 	private String parentDateDir = null;
+	private String customName = null;
 	
 	public DateRandomFileRenamePolicy() {
 		this(null);
@@ -27,10 +28,24 @@ public class DateRandomFileRenamePolicy extends FileRenamePolicyWrapper {
 	public DateRandomFileRenamePolicy(String parentDir) {
 		this.parentDir = this.appendFileSeparator(parentDir);
 	}
+	
+	public DateRandomFileRenamePolicy(String parentDir, String customName) {
+		this.parentDir = this.appendFileSeparator(parentDir);
+		this.customName = customName;
+	}
+	
+	public void setCutomName(String customName) {
+		this.customName = customName;
+	}
 
 	@Override
 	public File nameProcess(File f, String name, String ext) {
-		String rename = RandomKit.randomMD5Str();
+		String rename = null; 
+		if (StrKit.notBlank(this.customName)) {
+			rename = this.customName;
+		}else{
+			rename = RandomKit.randomMD5Str();
+		}
 		// add "/" postfix
 		StringBuilder path = new StringBuilder(f.getParent());
 

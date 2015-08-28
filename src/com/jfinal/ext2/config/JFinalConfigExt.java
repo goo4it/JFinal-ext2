@@ -38,7 +38,6 @@ import com.jfinal.ext.route.AutoBindRoutes;
 import com.jfinal.ext2.handler.ActionExtentionHandler;
 import com.jfinal.ext2.interceptor.NotFoundActionInterceptor;
 import com.jfinal.ext2.kit.PageViewKit;
-import com.jfinal.ext2.upload.OreillyCosExt;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
@@ -117,7 +116,6 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 		
 		// config others
 		configMoreConstants(me);
-		this.initOreillyCosExt(me);
 	}
 	
 	/**
@@ -187,29 +185,26 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	}
 	
 	/**
-	 * Init OreillyCosExt
-	 */
-	private void initOreillyCosExt(Constants me) {
-		OreillyCosExt.init(me.getUploadedFileSaveDirectory(), 
-				me.getMaxPostSize(), me.getEncoding());
-	}
-	
-	/**
 	 * 获取File Save Directory
-	 * "/var/upload/webappname"
+	 * "/var/uploads/webappname"
 	 * @return
 	 */
 	private String getSaveDiretory(){
 		String app = this.getWebAppName();
 		String baseDir = this.getProperty("savebasedir");
 		
-		if (!baseDir.endsWith("/")) {
-			baseDir += "/";
+		if (baseDir.endsWith("/")) {
+			if (!baseDir.endsWith("uploads/")) {
+				baseDir += "uploads/";	
+			}
+		}else{
+			if (!baseDir.endsWith("uploads")) {
+				baseDir += "/uploads/";
+			}else{
+				baseDir += "/";
+			}
 		}
 		
-		if (!baseDir.endsWith("uploads")) {
-			baseDir += "uploads/";
-		}
 		return (new StringBuilder(baseDir).append(app).toString());
 	}
 	

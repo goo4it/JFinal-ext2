@@ -18,6 +18,36 @@ public class SqlKitTest {
 				kit.column("username", "name")).from("bame as","asas a").where("a = b").ascOrderBy("ass").limit("12","1223");
 		
 		System.out.println(kit.sql());
+		
+		kit = new SqlKit();
+		kit.update("user").set("name","zcq","addr","北京").where("name = "+"'s'");
+		System.out.println(kit.sql());
+		kit = new SqlKit();
+		kit.insert("user").values("name","zcq","addr","北京");
+		System.out.println(kit.sql());
+		
+		String baseDir = "/var/uploads";
+//		if (baseDir.endsWith("/")) {
+//			if (!baseDir.endsWith("uploads/")) {
+//				baseDir += "uploads/";	
+//			}
+//		}else{
+//			if (!baseDir.endsWith("uploads")) {
+//				baseDir += "/uploads/";
+//			}else{
+//				baseDir += "/";
+//			}
+//		}
+		if (!baseDir.endsWith("/")) {
+			baseDir += "/";
+		}
+		
+		if (!baseDir.endsWith("uploads")) {
+			baseDir += "uploads/";
+		}
+		
+		System.out.println(baseDir);
+		
 	}
 
 }

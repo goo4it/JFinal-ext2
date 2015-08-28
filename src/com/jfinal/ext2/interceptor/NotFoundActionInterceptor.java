@@ -8,8 +8,8 @@ import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 
 /**
+ * 找不到Action
  * @author BruceZCQ
- *
  */
 public class NotFoundActionInterceptor implements Interceptor {
 

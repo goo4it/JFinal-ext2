@@ -10,6 +10,10 @@ package com.jfinal.ext2.kit;
 public class SqlKit {
 	
 	public static final String select = "SELECT";
+	public static final String update = "UPDATE";
+	public static final String set = "SET";
+	public static final String insert = "INSERT INTO";
+	public static final String values = "VALUES";
 	public static final String from = "FROM";
 	public static final String where = "WHERE";
 	public static final String and = "AND";
@@ -82,6 +86,72 @@ public class SqlKit {
 			}
 			index++;
 		}
+		return this;
+	}
+	
+	public SqlKit update(String tableName) {
+		sql.append(SqlKit.update).append(SqlKit.sapce).append(tableName).append(SqlKit.sapce);
+		return this;
+	}
+	
+	/**
+	 * set("name","新的值","addr","新的值")
+	 * @param columns
+	 * @return
+	 */
+	public SqlKit set(Object... columnsValues) {
+		int len = columnsValues.length;
+		if (len % 2 != 0) {
+			throw new IllegalArgumentException("wrong number of arguments for set, columnsValues length can not be odd");
+		}
+		sql.append(SqlKit.set).append(SqlKit.sapce);
+		
+		StringBuilder column = null;
+		for (int index = 0; index < len; index++) {
+			column = new StringBuilder();
+			if (index % 2 == 0) {
+				column.append(columnsValues[index]).append(SqlKit.sapce).append("=");
+			} else {
+				column.append("'").append(columnsValues[index]).append("'");
+				if (index != len - 1) {
+					column.append(",");
+				}
+			}
+			sql.append(column).append(SqlKit.sapce);
+		}
+		return this;
+	}
+	
+	public SqlKit insert(String tableName) {
+		sql.append(SqlKit.insert)
+		.append(SqlKit.sapce)
+		.append(tableName)
+		.append(SqlKit.sapce);
+		return this;
+	}
+	
+	public SqlKit values(Object... columnsValues) {
+		int len = columnsValues.length;
+		if (len % 2 != 0) {
+			throw new IllegalArgumentException("wrong number of arguments for values, columnsValues length can not be odd");
+		}
+		
+		sql.append(SqlKit.values).append(SqlKit.sapce);
+		sql.append("(").append(SqlKit.sapce);
+		StringBuilder column = null;
+		for (int index = 0; index < len; index++) {
+			column = new StringBuilder();
+			if (index % 2 == 0) {
+				column.append(columnsValues[index]).append(SqlKit.sapce).append("=");
+			} else {
+				column.append("'").append(columnsValues[index]).append("'");
+				if (index != len - 1) {
+					column.append(",");
+				}
+			}
+			sql.append(column).append(SqlKit.sapce);
+		}
+		sql.append(")");
 		return this;
 	}
 	

@@ -8,9 +8,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 import com.jfinal.ext.kit.Reflect;
-import com.jfinal.ext2.upload.MultipartRequestExt;
-import com.jfinal.ext2.upload.OreillyCosExt;
-import com.jfinal.upload.MultipartRequest;
+import com.jfinal.upload.OreillyCos;
 import com.jfinal.upload.UploadFile;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
@@ -18,10 +16,9 @@ import com.oreilly.servlet.multipart.FileRenamePolicy;
 /**
  * @author BruceZCQ Jun 22, 20154:15:48 PM
  */
-public class ControllerExt extends com.jfinal.core.Controller {
+public abstract class ControllerExt extends com.jfinal.core.Controller {
 
 	private static final FileRenamePolicy fileRenamePolicy = new DefaultFileRenamePolicy();
-	private MultipartRequestExt multipartRequest = null;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ControllerExt() {
@@ -50,33 +47,25 @@ public class ControllerExt extends com.jfinal.core.Controller {
 	 */
 	public List<UploadFile> getFiles(String saveDirectory, Integer maxPostSize,
 			String encoding, FileRenamePolicy fileRenamePolicy) {
-		OreillyCosExt.setFileRenamePolicy(fileRenamePolicy);
-		if (this.getRequest() instanceof MultipartRequest == false)
-			multipartRequest = new MultipartRequestExt(this.getRequest(), saveDirectory, maxPostSize, encoding);
-		return multipartRequest.getFiles();
+		OreillyCos.setFileRenamePolicy(fileRenamePolicy);
+		return super.getFiles(saveDirectory, maxPostSize, encoding);
 	}
 	
 	public List<UploadFile> getFiles(String saveDirectory, int maxPostSize,
 			FileRenamePolicy fileRenamePolicy) {
-		OreillyCosExt.setFileRenamePolicy(fileRenamePolicy);
-		if (this.getRequest() instanceof MultipartRequest == false)
-			multipartRequest = new MultipartRequestExt(this.getRequest(), saveDirectory, maxPostSize);
-		return multipartRequest.getFiles();
+		OreillyCos.setFileRenamePolicy(fileRenamePolicy);
+		return super.getFiles(saveDirectory, maxPostSize);
 	}
 
 	public List<UploadFile> getFiles(String saveDirectory,
 			FileRenamePolicy fileRenamePolicy) {
-		OreillyCosExt.setFileRenamePolicy(fileRenamePolicy);
-		if (this.getRequest() instanceof MultipartRequest == false)
-			multipartRequest = new MultipartRequestExt(this.getRequest(), saveDirectory);
-		return multipartRequest.getFiles();
+		OreillyCos.setFileRenamePolicy(fileRenamePolicy);
+		return super.getFiles(saveDirectory);
 	}
 	
 	public List<UploadFile> getFiles(FileRenamePolicy fileRenamePolicy) {
-		OreillyCosExt.setFileRenamePolicy(fileRenamePolicy);
-		if (this.getRequest() instanceof MultipartRequest == false)
-			multipartRequest = new MultipartRequestExt(this.getRequest());
-		return multipartRequest.getFiles();
+		OreillyCos.setFileRenamePolicy(fileRenamePolicy);
+		return super.getFiles();
 	}
 	
 	/**
@@ -186,4 +175,9 @@ public class ControllerExt extends com.jfinal.core.Controller {
 		return (new BigInteger(value));
 	}
 	
+	/**
+	 * Reflect Exception
+	 * @param e
+	 */
+	public abstract void onExceptionError(Exception e);
 }
