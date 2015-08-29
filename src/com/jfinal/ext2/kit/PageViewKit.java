@@ -68,7 +68,7 @@ public class PageViewKit {
 	}
 
 	private static String getErrorCodePageView(String errorCode){
-		return getPageView(WEBINF_DIR,ERROR_PAGE_PATH,errorCode,HTML);
+		return getPageView(WEBINF_DIR,ERROR_PAGE_PATH,errorCode,JSP);
 	}
 	
 	/**

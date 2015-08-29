@@ -9,7 +9,7 @@ public class SqlKitTest {
 	@Test
 	public void test() {
 		SqlKit kit = new SqlKit();
-		kit.select("a","b","c").from("user").where("user=1").and("name='2'").ascOrderBy("ii").limit("1,12");
+//		kit.select("a","b","c").from("user").where("user=1").and("name='2'").ascOrderBy("ii").limit("1,12");
 //		System.out.println(kit.sql());
 		
 		kit = new SqlKit();
@@ -20,11 +20,11 @@ public class SqlKitTest {
 		System.out.println(kit.sql());
 		
 		kit = new SqlKit();
-		kit.update("user").set("name","zcq","addr","北京").where("name = "+"'s'");
+		kit.update("user").set("name","'zcq","addr","北京'").where("name = s");
 		System.out.println(kit.sql());
-		kit = new SqlKit();
-		kit.insert("user").values("name","zcq","addr","北京");
-		System.out.println(kit.sql());
+//		kit = new SqlKit();
+//		kit.insert("user").values("name","zcq'","addr","北京'");
+//		System.out.println(kit.sql());
 		
 		String baseDir = "/var/uploads";
 //		if (baseDir.endsWith("/")) {

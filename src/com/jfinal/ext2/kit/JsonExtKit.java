@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Record;
@@ -25,6 +26,25 @@ public class JsonExtKit {
 	 */
 	public static JSONObject jsonToObject(String json){
 		return JSON.parseObject(json);
+	}
+	
+	/**
+	 * json to array
+	 * @param <T>
+	 * @param json
+	 * @return
+	 */
+	public static JSONArray jsonToJSONArray(String json) {
+		return JSON.parseArray(json);
+	}
+	
+	/**
+	 * json to array
+	 * @param json
+	 * @return
+	 */
+	public static Object[] jsonToObjArray(String json) {
+		return JsonExtKit.jsonToJSONArray(json).toArray();
 	}
 	
 	/**

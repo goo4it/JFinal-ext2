@@ -52,6 +52,7 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	private final static String cfg = "cfg.txt";
 	
 	public static String WEB_APP_NAME = null;
+	public static String UPLOAD_SAVE_DIR = null;
 	public static Boolean DEV_MODE = false;
 	
 	/**
@@ -113,6 +114,7 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 		
 		JFinalConfigExt.WEB_APP_NAME = this.getWebAppName();
 		JFinalConfigExt.DEV_MODE = this.getAppDevMode();
+		JFinalConfigExt.UPLOAD_SAVE_DIR = me.getUploadedFileSaveDirectory();
 		
 		// config others
 		configMoreConstants(me);

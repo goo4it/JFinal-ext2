@@ -16,6 +16,7 @@ public class SqlKit {
 	public static final String values = "VALUES";
 	public static final String from = "FROM";
 	public static final String where = "WHERE";
+	public static final String like = "LIKE";
 	public static final String and = "AND";
 	public static final String or = "OR";
 	public static final String orderby = "ORDER BY";
@@ -112,7 +113,7 @@ public class SqlKit {
 			if (index % 2 == 0) {
 				column.append(columnsValues[index]).append(SqlKit.sapce).append("=");
 			} else {
-				column.append("'").append(columnsValues[index]).append("'");
+				column.append(columnsValues[index]);
 				if (index != len - 1) {
 					column.append(",");
 				}
@@ -144,7 +145,7 @@ public class SqlKit {
 			if (index % 2 == 0) {
 				column.append(columnsValues[index]).append(SqlKit.sapce).append("=");
 			} else {
-				column.append("'").append(columnsValues[index]).append("'");
+				column.append(columnsValues[index]);
 				if (index != len - 1) {
 					column.append(",");
 				}
@@ -173,6 +174,13 @@ public class SqlKit {
 	public SqlKit where(String where){
 		sql.append(SqlKit.where).append(SqlKit.sapce).append(where).append(SqlKit.sapce);
 		return this;
+	}
+	
+	//TODO 未完成
+	public SqlKit like(String like) {
+		throw new IllegalArgumentException("not finished");
+//		sql.append(SqlKit.where).append(SqlKit.sapce).append(SqlKit.like).append(SqlKit.sapce);
+//		return this;
 	}
 	
 	public SqlKit and(String condition){
@@ -210,6 +218,11 @@ public class SqlKit {
 			}
 			index++;
 		}
+		return this;
+	}
+	
+	public SqlKit append(String append) {
+		sql.append(append);
 		return this;
 	}
 	
