@@ -26,9 +26,21 @@ public class StandaloneDbConfig {
 		cfg.start();
 	}
 	
+	private StandaloneDbConfig(JFinalConfig config) {
+		cfg = new Config(config);
+		cfg.start();
+	}
+	
 	public static StandaloneDbConfig start() {
 		if (instance == null) {
 			instance = new StandaloneDbConfig();
+		}
+		return instance;
+	}
+	
+	public static StandaloneDbConfig start(JFinalConfig config) {
+		if (instance == null) {
+			instance = new StandaloneDbConfig(config);
 		}
 		return instance;
 	}
@@ -45,6 +57,10 @@ public class StandaloneDbConfig {
 		
 		public Config() {
 			JFinalConfig config = new JFinalConfig();
+			config.configPlugin(plugins);
+		}
+		
+		public Config(JFinalConfig config) {
 			config.configPlugin(plugins);
 		}
 		
