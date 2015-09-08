@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 import com.jfinal.ext.kit.Reflect;
+import com.jfinal.log.Logger;
 import com.jfinal.upload.OreillyCos;
 import com.jfinal.upload.UploadFile;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -19,6 +20,7 @@ import com.oreilly.servlet.multipart.FileRenamePolicy;
 public abstract class ControllerExt extends com.jfinal.core.Controller {
 
 	private static final FileRenamePolicy fileRenamePolicy = new DefaultFileRenamePolicy();
+	protected Logger log = Logger.getLogger(this.getClass());
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ControllerExt() {
