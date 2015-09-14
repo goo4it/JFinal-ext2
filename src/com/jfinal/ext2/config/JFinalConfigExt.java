@@ -33,9 +33,11 @@ import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
+import com.jfinal.ext.interceptor.POST;
 import com.jfinal.ext.plugin.tablebind.AutoTableBindPlugin;
 import com.jfinal.ext.route.AutoBindRoutes;
 import com.jfinal.ext2.handler.ActionExtentionHandler;
+import com.jfinal.ext2.interceptor.ExceptionInterceptorExt;
 import com.jfinal.ext2.interceptor.NotFoundActionInterceptor;
 import com.jfinal.ext2.kit.PageViewKit;
 import com.jfinal.kit.StrKit;
@@ -165,7 +167,11 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	public void configInterceptor(Interceptors me) {
 		// when action not found fire 404 error
 		me.add(new NotFoundActionInterceptor());
-
+		// add excetion interceptor
+		me.add(new ExceptionInterceptorExt());
+		if (this.getHttpMethod()) {
+			me.add(new POST());
+		}
 		// config others
 		configMoreInterceptors(me);
 	}
@@ -184,6 +190,13 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	public void afterJFinalStart() {
 		super.afterJFinalStart();
 		this.afterJFinalStarted();
+	}
+	
+	private boolean getHttpMethod() {
+		if (this.prop == null) {
+			this.loadPropertyFile(cfg);
+		}
+		return this.getPropertyToBoolean("post",false);
 	}
 	
 	/**

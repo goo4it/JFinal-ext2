@@ -25,5 +25,8 @@ showSql = true
 dev = true
 # file save directory
 savebasedir = /var/uploads
+### http method
+### false : get
+post = true
 #current app name
 webappname = 
