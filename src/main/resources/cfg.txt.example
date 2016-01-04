@@ -1,0 +1,47 @@
+#---------------------------------------------------------------------------------#
+#  database　Config
+# 1. db.active:ture, use db;
+# 2. db.dscnt: db datasource count;
+# 3. db.cfgname*: configname;
+# 4. db.url*: db url;
+# 5. db.user: db username;
+# 6. db.password: db password, 
+#	use `java -cp druid-xx.jar com.alibaba.druid.filter.config.ConfigTools your_password`
+#	generate your encrypt password;
+# 7. db.initsize: db pool init size;
+# 8. db.maxactive: db pool maxactive;
+# 9. db.showsql: ture, show execute sql;
+#---------------------------------------------------------------------------------#
+db.active = false
+db.dscnt = 1
+db.cfgname1 = config1
+db.url1 = testing_host/db
+db.user = 
+db.password = lCzd9geWAuAuJtLhpaG/J+d28H8KiMFAWopxXkYpMNdUai6Xe/LsPqMQeg5MIrmvtMa+hzycdRhWs29ZUPU1IQ==
+db.initsize = 6
+db.maxactive = 100
+db.showsql = true
+#---------------------------------------------------------------------------------#
+# Generator Config
+# 1. ge.run: true, generate the model and basemmodels;
+# 2. ge.base.model.outdir: the basemodel output dir path;
+# 3. ge.base.model.package: the basemodel package;
+# 4. ge.model.outdir: the model output dir path;
+# 5. ge.model.package: the model package;
+#---------------------------------------------------------------------------------#
+ge.run=true
+ge.base.model.outdir=
+ge.base.model.package=
+ge.model.outdir=
+ge.model.package=
+#---------------------------------------------------------------------------------#
+## App Config
+# 1. app.dev: true, the app is debug mode;
+# 2. app.upload.basedir: upload file save base dir;
+# 3. app.post: ture, use Http Post method;
+# 4. app.name: app's name;
+#---------------------------------------------------------------------------------#
+app.dev = true
+app.upload.basedir = /var/uploads
+app.post = true
+app.name = 
