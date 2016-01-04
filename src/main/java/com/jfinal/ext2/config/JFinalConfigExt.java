@@ -319,23 +319,40 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 		return this.getPropertyToBoolean("ge.run");
 	}
 	
+	private String modelPackage = null;
+	private String modelOutDir = null;
+	private String baseModelPackage = null;
+	private String baseModelOutDir = null;
+	
 	private String getBaseModelOutDir() {
 		this.loadPropertyFile();
-		return this.getProperty("ge.base.model.outdir");
+		if (this.baseModelOutDir == null) {
+			this.baseModelOutDir = this.getProperty("ge.base.model.outdir");
+		}
+		return this.baseModelOutDir;
 	}
 	
 	private String getBaseModelPackage() {
 		this.loadPropertyFile();
-		return this.getProperty("ge.base.model.package");
+		if (this.baseModelPackage == null) {
+			this.baseModelPackage = this.getProperty("ge.base.model.package");
+		}
+		return this.baseModelPackage;
 	}
 	
 	private String getModelOutDir() {
 		this.loadPropertyFile();
-		return this.getProperty("ge.model.outdir");
+		if (this.modelOutDir == null) {
+			this.modelOutDir = this.getProperty("ge.model.outdir");
+		}
+		return this.modelOutDir;
 	}
 	
 	private String getModelPackage() {
 		this.loadPropertyFile();
-		return this.getProperty("ge.model.package");
+		if (this.modelPackage == null) {
+			this.modelPackage =  this.getProperty("ge.model.package");
+		}
+		return this.modelPackage;
 	}
 }
