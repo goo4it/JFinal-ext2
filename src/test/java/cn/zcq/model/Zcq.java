@@ -8,4 +8,5 @@ import cn.zcq.base.model.BaseZcq;
 @SuppressWarnings("serial")
 public class Zcq extends BaseZcq<Zcq> {
 	public static final Zcq dao = new Zcq();
+	public static final String table = "zcq";
 }

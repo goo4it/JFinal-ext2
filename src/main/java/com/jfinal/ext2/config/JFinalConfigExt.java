@@ -31,10 +31,12 @@ import com.jfinal.ext2.handler.ActionExtentionHandler;
 import com.jfinal.ext2.interceptor.ExceptionInterceptorExt;
 import com.jfinal.ext2.interceptor.NotFoundActionInterceptor;
 import com.jfinal.ext2.kit.PageViewKit;
+import com.jfinal.ext2.plugin.activerecord.generator.ModelExtGenerator;
 import com.jfinal.ext2.plugin.druid.DruidEncryptPlugin;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
+import com.jfinal.plugin.activerecord.generator.BaseModelGenerator;
 import com.jfinal.plugin.activerecord.generator.Generator;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.ViewType;
@@ -137,16 +139,16 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	 * TODO 自动 mapping
 	 */
 	public void configPlugin(Plugins me) {
-		if (this.getDbActiveState()) {
-			Integer cnt = this.getDataSourceCount();
-			for (Integer index = 1; index <= cnt; index++) {
-				DruidEncryptPlugin drp = this.getDruidPlugin(index);
-				String configName = this.getDataSouceConfigNameAtIndex(index);
+			String[] dses = this.getDataSource();
+			for (String ds : dses) {
+				if (!this.getDbActiveState(ds)) {
+					continue;
+				}
+				DruidEncryptPlugin drp = this.getDruidPlugin(ds);
 				me.add(drp);
-				ActiveRecordPlugin arp = this.getActiveRecordPlugin(configName, drp);
+				ActiveRecordPlugin arp = this.getActiveRecordPlugin(ds, drp);
 				me.add(arp);
-				configTablesMapping(configName, arp);
-			}
+				configTablesMapping(ds, arp);
 		}
 		// config others
 		configMorePlugins(me);
@@ -240,32 +242,36 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 		return appName;
 	}
 	
+	private static final String ACTIVE_TEMPLATE = "db.%s.active";
+	private static final String URL_TEMPLATE = "jdbc:%s://%s";
+	private static final String USER_TEMPLATE = "db.%s.user";
+	private static final String PASSWORD_TEMPLATE = "db.%s.password";
+	private static final String INITSIZE_TEMPLATE = "db.%s.initsize";
+	private static final String MAXSIZE_TEMPLATE = "db.%s.maxactive";
+	
 	/**
 	 * 获取是否打开数据库状态
 	 * @return
 	 */
-	private Boolean getDbActiveState(){
+	private Boolean getDbActiveState(String ds){
 		this.loadPropertyFile();
-		return this.getPropertyToBoolean("db.active");
+		return this.getPropertyToBoolean(String.format(ACTIVE_TEMPLATE, ds));
 	}
 	
 	/**
-	 * 获取数据源数量
+	 * 获取数据源
 	 * @return
 	 */
-	private Integer getDataSourceCount() {
+	private String[] getDataSource() {
 		this.loadPropertyFile();
-		return this.getPropertyToInt("db.dscnt");
-	}
-	
-	/**
-	 * 获取数据源configname
-	 * @param index
-	 * @return
-	 */
-	private String getDataSouceConfigNameAtIndex(Integer index) {
-		this.loadPropertyFile();
-		return this.getProperty("db.cfgname"+index);
+		String ds = this.getProperty("db.ds");
+		if (StrKit.isBlank(ds)) {
+			return (new String[0]);
+		}
+		if (ds.contains("，")) {
+			new IllegalArgumentException("Cannot use ，in ds");
+		}
+		return ds.split(",");
 	}
 	
 	/**
@@ -273,23 +279,26 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	 * @param prop ： property
 	 * @return
 	 */
-	private DruidEncryptPlugin getDruidPlugin(Integer index) {
+	private DruidEncryptPlugin getDruidPlugin(String ds) {
 		this.loadPropertyFile();
-		DruidEncryptPlugin dp = new DruidEncryptPlugin("jdbc:mysql://"+this.getProperty("db.url"+index),
-				this.getProperty("db.user"),
-				this.getProperty("db.password"));
-		dp.setInitialSize(this.getPropertyToInt("db.initsize"));
-		dp.setMaxActive(this.getPropertyToInt("db.maxactive"));
+		String url = this.getProperty(String.format("db.%s.url", ds));
+		DruidEncryptPlugin dp = new DruidEncryptPlugin(String.format(URL_TEMPLATE, ds, url),
+				this.getProperty(String.format(USER_TEMPLATE, ds)),
+				this.getProperty(String.format(PASSWORD_TEMPLATE, ds)));
+		dp.setInitialSize(this.getPropertyToInt(String.format(INITSIZE_TEMPLATE, ds)));
+		dp.setMaxActive(this.getPropertyToInt(String.format(MAXSIZE_TEMPLATE, ds)));
 		dp.addFilter(new StatFilter());
 		WallFilter wall = new WallFilter();
-		wall.setDbType("mysql");
+		wall.setDbType(ds);
 		dp.addFilter(wall);
 		
 		if (this.getGeRun() && !this.geRuned) {
 			dp.start();
-			Generator ge = new Generator(dp.getDataSource(), this.getBaseModelPackage(), this.getBaseModelOutDir(), this.getModelPackage(), this.getModelOutDir());
+			BaseModelGenerator baseGe = new BaseModelGenerator(this.getBaseModelPackage(), this.getBaseModelOutDir());
+			ModelExtGenerator modelGe = new ModelExtGenerator(this.getModelPackage(), this.getBaseModelPackage(), this.getModelOutDir());
+			Generator ge = new Generator(dp.getDataSource(), baseGe, modelGe);
 			ge.generate();
-			this.geRuned = this.getDataSourceCount() == 1 ? true : false;
+			this.geRuned = this.getDataSource().length == 1 ? true : false;
 		}
 		
 		return dp;
@@ -300,9 +309,9 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	 * @param dp DruidPlugin
 	 * @return
 	 */
-	private ActiveRecordPlugin getActiveRecordPlugin(String cfgName, DruidPlugin dp){
+	private ActiveRecordPlugin getActiveRecordPlugin(String ds, DruidPlugin dp){
 		this.loadPropertyFile();
-		ActiveRecordPlugin arp = new ActiveRecordPlugin(cfgName, dp);
+		ActiveRecordPlugin arp = new ActiveRecordPlugin(ds, dp);
 		arp.setShowSql(this.getPropertyToBoolean("db.showsql"));
 		arp.setDialect(new MysqlDialect());
 		// mapping
@@ -312,6 +321,7 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 			mapping.invoke(clazz, arp);
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
+			throw new RuntimeException(e.getLocalizedMessage());
 		}
 		return arp;
 	}
@@ -355,6 +365,11 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 		if (this.modelPackage == null) {
 			this.modelPackage =  this.getProperty("ge.model.package");
 		}
+		
+		if (StrKit.isBlank(this.modelPackage)) {
+			throw new IllegalArgumentException("Please set your model package in cfg.txt file");
+		}
+		
 		return this.modelPackage;
 	}
 }

@@ -8,4 +8,5 @@ import cn.zcq.base.model.BaseZcqCopyZz;
 @SuppressWarnings("serial")
 public class ZcqCopyZz extends BaseZcqCopyZz<ZcqCopyZz> {
 	public static final ZcqCopyZz dao = new ZcqCopyZz();
+	public static final String table = "zcq_copy_zz";
 }

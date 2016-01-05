@@ -7,8 +7,6 @@ import org.junit.Test;
 
 import com.jfinal.ext2.config.StandaloneDbConfig;
 import com.jfinal.kit.HashKit;
-import com.jfinal.plugin.activerecord.Table;
-import com.jfinal.plugin.activerecord.TableMapping;
 
 import cn.zcq.model.Zcq;
 
@@ -29,7 +27,7 @@ public class StandaloneConfig {
 	@After
 	public void tearDown() throws Exception {
 	}
-
+	
 	@Test
 	public void test() {
 		StandaloneDbConfig.start();
@@ -37,10 +35,10 @@ public class StandaloneConfig {
 		Zcq zcq = new Zcq();
 		zcq.setId(0L);
 		zcq.setAddr(HashKit.generateSalt(12));
-		
+//		
 		zcq.save();
-		
-		Table table = TableMapping.me().getTable(Zcq.class);
-		System.out.println(table);
+//		
+//		Table table = TableMapping.me().getTable(Zcq.class);
+//		System.out.println(table.getName());
 	}
 }
