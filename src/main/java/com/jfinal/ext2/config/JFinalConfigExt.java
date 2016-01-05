@@ -50,7 +50,7 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	
 	public static String APP_NAME = null;
 	public static String UPLOAD_SAVE_DIR = null;
-	public static Boolean DEV_MODE = false;
+	public static boolean DEV_MODE = false;
 	
 	private boolean geRuned = false;
 	
@@ -223,9 +223,9 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	 * 获取app的dev mode
 	 * @return
 	 */
-	private Boolean getAppDevMode(){
+	private boolean getAppDevMode(){
 		this.loadPropertyFile();
-		return this.getPropertyToBoolean("app.dev");
+		return this.getPropertyToBoolean("app.dev", true);
 	}
 
 	/**
@@ -252,9 +252,9 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	 * 获取是否打开数据库状态
 	 * @return
 	 */
-	private Boolean getDbActiveState(String ds){
+	private boolean getDbActiveState(String ds){
 		this.loadPropertyFile();
-		return this.getPropertyToBoolean(String.format(ACTIVE_TEMPLATE, ds));
+		return this.getPropertyToBoolean(String.format(ACTIVE_TEMPLATE, ds), false);
 	}
 	
 	/**
@@ -296,6 +296,7 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 			BaseModelGenerator baseGe = new BaseModelGenerator(this.getBaseModelPackage(), this.getBaseModelOutDir());
 			ModelExtGenerator modelGe = new ModelExtGenerator(this.getModelPackage(), this.getBaseModelPackage(), this.getModelOutDir());
 			Generator ge = new Generator(dp.getDataSource(), baseGe, modelGe);
+			ge.setGenerateDataDictionary(this.getGeDictionary());
 			ge.generate();
 			this.geRuned = this.getDataSource().length == 1 ? true : false;
 		}
@@ -324,15 +325,20 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 		return arp;
 	}
 	
-	private boolean getGeRun() {
-		this.loadPropertyFile();
-		return this.getPropertyToBoolean("ge.run");
-	}
-	
 	private String modelPackage = null;
 	private String modelOutDir = null;
 	private String baseModelPackage = null;
 	private String baseModelOutDir = null;
+	
+	private boolean getGeRun() {
+		this.loadPropertyFile();
+		return this.getPropertyToBoolean("ge.run", false);
+	}
+
+	private boolean getGeDictionary() {
+		this.loadPropertyFile();
+		return this.getPropertyToBoolean("ge.dict", false);
+	}
 	
 	private String getBaseModelOutDir() {
 		this.loadPropertyFile();
