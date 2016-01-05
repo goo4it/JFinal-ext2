@@ -7,6 +7,8 @@ import org.junit.Test;
 
 import com.jfinal.ext2.config.StandaloneDbConfig;
 import com.jfinal.kit.HashKit;
+import com.jfinal.plugin.activerecord.Table;
+import com.jfinal.plugin.activerecord.TableMapping;
 
 import cn.zcq.model.Zcq;
 
@@ -37,5 +39,8 @@ public class StandaloneConfig {
 		zcq.setAddr(HashKit.generateSalt(12));
 		
 		zcq.save();
+		
+		Table table = TableMapping.me().getTable(Zcq.class);
+		System.out.println(table);
 	}
 }

@@ -20,6 +20,7 @@ import com.jfinal.aop.Invocation;
 import com.jfinal.core.ActionException;
 import com.jfinal.ext2.config.JFinalConfigExt;
 import com.jfinal.ext2.core.ControllerExt;
+import com.jfinal.log.Log;
 
 /**
  * ExceptionInterceptor
@@ -27,6 +28,8 @@ import com.jfinal.ext2.core.ControllerExt;
  */
 public class ExceptionInterceptorExt implements Interceptor {
 
+	private Log log = Log.getLog(this.getClass());
+	
 	@Override
 	public void intercept(Invocation inv) {
 		try {
@@ -36,7 +39,7 @@ public class ExceptionInterceptorExt implements Interceptor {
 				ControllerExt controller = inv.getTarget();;
 				controller.onExceptionError(e);
 				if (JFinalConfigExt.DEV_MODE) {
-					e.printStackTrace();
+					this.log.error(e.getLocalizedMessage());
 				}
 				if (e instanceof ActionException) {
 					controller.renderError(((ActionException)e).getErrorCode());

@@ -31,39 +31,38 @@ public class DateTimeKit {
 	/**
 	 * yyyy-MM-dd HH:mm:ss
 	 */
-	public static String FULL_DATE_24HR_STYLE = "yyyy-MM-dd HH:mm:ss";
+	public static final String FULL_DATE_24HR_STYLE = "yyyy-MM-dd HH:mm:ss";
 	
 	/**
 	 * yyyy-MM-dd hh:mm:ss
 	 */
-	public static String FULL_DATE_12HR_STYLE = "yyyy-MM-dd hh:mm:ss";
+	public static final String FULL_DATE_12HR_STYLE = "yyyy-MM-dd hh:mm:ss";
 	
 	/**
 	 * yyyy-MM-dd HH:mm
 	 */
-	public static String DATE_TIME_24HR_STYLE = "yyyy-MM-dd HH:mm";
+	public static final String DATE_TIME_24HR_STYLE = "yyyy-MM-dd HH:mm";
 	
 	/**
 	 * yyyy-MM-dd hh:mm
 	 */
-	public static String DATE_TIME_12HR_STYLE = "yyyy-MM-dd hh:mm";
+	public static final String DATE_TIME_12HR_STYLE = "yyyy-MM-dd hh:mm";
 	
 	/**
 	 * yyyy-MM-dd
 	 */
-	public static String DATE_STYLE = "yyyy-MM-dd";
+	public static final String DATE_STYLE = "yyyy-MM-dd";
 	
 	/**
 	 * HH:mm
 	 */
-	public static String TIME_24HR_STYLE = "HH:mm";
+	public static final String TIME_24HR_STYLE = "HH:mm";
 	
 	/**
 	 * hh:mm
 	 */
-	public static String TIME_12HR_STYLE = "hh:mm";
+	public static final String TIME_12HR_STYLE = "hh:mm";
 	
-
 	/**
 	 * 时间进制
 	 * @author 朱丛启  2015年5月4日 上午10:24:46

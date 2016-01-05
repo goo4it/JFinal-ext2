@@ -34,6 +34,7 @@ import com.jfinal.ext2.kit.PageViewKit;
 import com.jfinal.ext2.plugin.druid.DruidEncryptPlugin;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
 import com.jfinal.plugin.activerecord.generator.Generator;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.ViewType;
@@ -303,6 +304,7 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 		this.loadPropertyFile();
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(cfgName, dp);
 		arp.setShowSql(this.getPropertyToBoolean("db.showsql"));
+		arp.setDialect(new MysqlDialect());
 		// mapping
 		try {
 			Class<?> clazz = Class.forName(this.getModelPackage()+"._MappingKit");

@@ -22,6 +22,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Record;
 
@@ -31,6 +32,8 @@ import com.jfinal.plugin.activerecord.Record;
  */
 public class JsonExtKit {
 
+	private static Log log = Log.getLog(JsonExtKit.class);
+	
 	/**
 	 * json string to JSONObject
 	 * @param json
@@ -91,9 +94,9 @@ public class JsonExtKit {
 		try {
 			model = clazz.newInstance();
 		} catch (InstantiationException e) {
-			e.printStackTrace();
+			JsonExtKit.log.error(e.getLocalizedMessage());
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			JsonExtKit.log.error(e.getLocalizedMessage());
 		}
 		Map<String, Object> attrs = jsonToMap(json);
 		return model._setAttrs(attrs);
