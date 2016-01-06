@@ -52,7 +52,7 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	public static String UPLOAD_SAVE_DIR = null;
 	public static boolean DEV_MODE = false;
 	
-	private boolean geRuned = false;
+	protected boolean geRuned = true;
 	
 	/**
 	 * Config other More constant
@@ -291,14 +291,13 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 		wall.setDbType(ds);
 		dp.addFilter(wall);
 		
-		if (this.getGeRun() && !this.geRuned) {
+		if (!this.geRuned) {
 			dp.start();
 			BaseModelGenerator baseGe = new BaseModelGenerator(this.getBaseModelPackage(), this.getBaseModelOutDir());
 			ModelExtGenerator modelGe = new ModelExtGenerator(this.getModelPackage(), this.getBaseModelPackage(), this.getModelOutDir());
 			Generator ge = new Generator(dp.getDataSource(), baseGe, modelGe);
 			ge.setGenerateDataDictionary(this.getGeDictionary());
 			ge.generate();
-			this.geRuned = this.getDataSource().length == 1 ? true : false;
 		}
 		
 		return dp;
@@ -334,11 +333,6 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	private String baseModelPackage = null;
 	private String baseModelOutDir = null;
 	
-	private boolean getGeRun() {
-		this.loadPropertyFile();
-		return this.getPropertyToBoolean("ge.run", false);
-	}
-
 	private boolean getGeDictionary() {
 		this.loadPropertyFile();
 		return this.getPropertyToBoolean("ge.dict", false);

@@ -31,26 +31,28 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 public class StandaloneDbConfig {
 	
 	private static StandaloneDbConfig instance = null;
-	private JFinalConfig cfg = null;
+	private JFinalSubConfig cfg = null;
 	
-	private StandaloneDbConfig() {
-		this(new JFinalConfig());
-	}
-	
-	private StandaloneDbConfig(JFinalConfig config) {
-		this.cfg = config;
+	private StandaloneDbConfig(boolean geRuned) {
+		this.cfg = new JFinalSubConfig(geRuned);
 		this.cfg.start();
 	}
 	
+	/**
+	 * 启动数据库配置
+	 */
 	public static void start() {
 		if (StandaloneDbConfig.instance == null) {
-			StandaloneDbConfig.instance = new StandaloneDbConfig();
+			StandaloneDbConfig.instance = new StandaloneDbConfig(true);
 		}
 	}
 	
-	public static void start(JFinalConfig config) {
+	/**
+	 * 生成 Model+BaseModel
+	 */
+	public static void startGe() {
 		if (StandaloneDbConfig.instance == null) {
-			StandaloneDbConfig.instance = new StandaloneDbConfig(config);
+			StandaloneDbConfig.instance = new StandaloneDbConfig(false);
 		}
 	}
 	
@@ -60,11 +62,12 @@ public class StandaloneDbConfig {
 		}
 	}
 	
-	private static class JFinalConfig extends JFinalConfigExt {
+	private static class JFinalSubConfig extends JFinalConfigExt {
 
 		private static final Plugins plugins = new Plugins();
 		
-		public JFinalConfig() {
+		public JFinalSubConfig(boolean geRuned) {
+			this.geRuned = geRuned;
 			this.configPlugin(plugins);
 		}
 		

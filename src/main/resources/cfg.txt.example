@@ -21,14 +21,12 @@ db.mysql.maxactive = 100
 db.showsql = true
 #---------------------------------------------------------------------------------#
 # Generator Config
-# 1. ge.run: true, generate the model and basemmodels;
-# 2. ge.dict: true, generate the data dict;
-# 3. ge.base.model.outdir: the basemodel output dir path;
-# 4. ge.base.model.package: the basemodel package;
-# 5. ge.model.outdir: the model output dir path;
-# 6. ge.model.package: the model package;
+# 1. ge.dict: true, generate the data dict;
+# 2. ge.base.model.outdir: the basemodel output dir path;
+# 3. ge.base.model.package: the basemodel package;
+# 4. ge.model.outdir: the model output dir path;
+# 5. ge.model.package: the model package;
 #---------------------------------------------------------------------------------#
-ge.run=true
 ge.dict=true
 ge.base.model.outdir=
 ge.base.model.package=

@@ -26,7 +26,7 @@ public class Ge {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		StandaloneDbConfig.start();
+		StandaloneDbConfig.startGe();
 	}
 
 }

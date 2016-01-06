@@ -4,16 +4,6 @@
 
 jfex2有部分特性基于 jfinal-ext，但发现 jfinal-ext 基于JF1.9，很久没有更新了。于是，我将 jfinal-ext 的 code 自己 copy 到了 jfex2中，并将其做了修改以适应 JF2.1，对于出错部分，我没有过多的去考虑，能改的我就改了，比较打动的，我就删除了。这里点一下，JF2.1吧2.0的 Logger 改名成 Log 了，可是伤透了心"_"。
 
-进入正题。下面将从几个方面来讲解 jfex2的使用:
-
-1. jfex2的依赖;
-2. jfex2配置说明;
-3. jfex2-Config & StandaloneDbConfig;
-4. jfex2结构;
-5. jfex2-Ge;
-
-下面逐一讲解
-
 ####1. jfex2的依赖
 完整的依赖列表
 
