@@ -49,54 +49,7 @@ db.showsql = true
 5. 使用 maven 管理项目;
 
 #####配置说明
-```shell
-#--------------------------------------------------------------------#
-#  database　Config
-# 1. db.ds: db datasource name, use ',' split. eg :mysql,oracle;数据源 name;
-# 2. db.*.active:ture, use db,* is the ds name;数据源为*的数据源是否激活;
-# 3. db.*.url: db url,* is the ds name;数据源为*的数据库的 url;
-# 4. db.*.user: db username,* is the ds name;数据源为*的数据库用户名;
-# 5. db.*.password: db password,* is the ds name, 数据源为*的数据库密码,已加密
-#	use `java -cp druid-xx.jar com.alibaba.druid.filter.config.ConfigTools your_password`
-#	generate your encrypt password;使用com.alibaba.druid.filter.config.ConfigTools获得加密密码;
-# 6. db.*.initsize: db pool init size,* is the ds name;数据源为*的连接池初始化大小;
-# 7. db.*.maxactive: db pool maxactive,* is the ds name;数据源为*的连接池最大连接数;
-# 8. db.showsql: ture, show execute sql;是否显示 sql;
-#--------------------------------------------------------------------#
-db.ds = mysql
-db.mysql.active = false
-db.mysql.url = testing_host/db
-db.mysql.user = 
-db.mysql.password = lCzd9geWAuAuJtLhpaG/J+d28H8KiMFAWopxXkYpMNdUai6Xe/LsPqMQeg5MIrmvtMa+hzycdRhWs29ZUPU1IQ==
-db.mysql.initsize = 6
-db.mysql.maxactive = 100
-db.showsql = true
-#--------------------------------------------------------------------#
-# Generator Config
-# 1. ge.run: true, generate the model and basemmodels;是否生成 models;
-# 2. ge.base.model.outdir: the basemodel output dir path;basemodel输出目录;
-# 3. ge.base.model.package: the basemodel package;basemodel 包名;
-# 4. ge.model.outdir: the model output dir path;model输出目录;
-# 5. ge.model.package: the model package;model包名;
-#--------------------------------------------------------------------#
-ge.run=true
-ge.base.model.outdir=
-ge.base.model.package=
-ge.model.outdir=
-ge.model.package=
-#--------------------------------------------------------------------#
-## App Config
-# 1. app.dev: true, the app is debug mode;是否为 debug 模式;
-# 2. app.upload.basedir: upload file save base dir;上传文件存放的基目录;
-# 3. app.post: ture, use Http Post method;
-# 4. app.name: app's name;当前 app 的名字;
-#--------------------------------------------------------------------#
-app.dev = true
-app.upload.basedir = /var/uploads
-app.post = true
-app.name = 
-```
-
+[手册](MANUAL.md)
 
 基于JFinal 2.0加入一些kit，它们有
 
