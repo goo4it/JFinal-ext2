@@ -1,5 +1,12 @@
 # JFinal-ext2
 
+#####v2.0.2更新内容
+1. 加入 JFinalExt,更方面的获取DEV_MODE,UPLOAD_PATH,DOWNLOAD_PATH,ENCODING;
+2. cfg.txt 中加入app.downloads.basedir,设置 app 的 uploads 和 downloads 目录,目录格式为basedir+app_name+文件路径;
+3. 删除设计不合理的FileRenamePolicy,保留RandomFileRenamePolicy;
+4. 加入UploadPathKit,获取日期格式的 path,比如当前日期是2016-1-7则目录为:/var/uploads/appname/2016/1/7/xxxx.jpg;
+5. 修改OreillyCos默认的 filerenamepolicy 为RandomFileRenamePolicy,可以在configMoreConstants中自行修改;
+
 #####v2.0.1更新内容
 1. 自动 mapping 生成的 model;
 2. 在 model 中添加了一个常量 table,为对应的表名,便于在手写 sql 时候使用;
