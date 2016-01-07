@@ -30,7 +30,7 @@ import com.jfinal.plugin.activerecord.Record;
  * @author BruceZCQ
  *
  */
-public class JsonExtKit {
+final public class JsonExtKit {
 
 	private static Log log = Log.getLog(JsonExtKit.class);
 	

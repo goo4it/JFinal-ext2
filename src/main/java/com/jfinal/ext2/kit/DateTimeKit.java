@@ -26,7 +26,7 @@ import java.util.Date;
  * @author BruceZCQ
  *
  */
-public class DateTimeKit {
+final public class DateTimeKit {
 	
 	/**
 	 * yyyy-MM-dd HH:mm:ss

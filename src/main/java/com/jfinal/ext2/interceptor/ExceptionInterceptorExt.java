@@ -18,7 +18,7 @@ package com.jfinal.ext2.interceptor;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.ActionException;
-import com.jfinal.ext2.config.JFinalConfigExt;
+import com.jfinal.ext2.config.JFinalExt;
 import com.jfinal.ext2.core.ControllerExt;
 import com.jfinal.log.Log;
 
@@ -38,7 +38,7 @@ public class ExceptionInterceptorExt implements Interceptor {
 			if (inv.getTarget() instanceof ControllerExt) {
 				ControllerExt controller = inv.getTarget();;
 				controller.onExceptionError(e);
-				if (JFinalConfigExt.DEV_MODE) {
+				if (JFinalExt.DEV_MODE) {
 					this.log.error(e.getLocalizedMessage());
 				}
 				if (e instanceof ActionException) {

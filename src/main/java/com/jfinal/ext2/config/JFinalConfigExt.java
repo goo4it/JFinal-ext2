@@ -25,6 +25,7 @@ import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
+import com.jfinal.core.Const;
 import com.jfinal.ext.interceptor.POST;
 import com.jfinal.ext.route.AutoBindRoutes;
 import com.jfinal.ext2.handler.ActionExtentionHandler;
@@ -33,12 +34,14 @@ import com.jfinal.ext2.interceptor.NotFoundActionInterceptor;
 import com.jfinal.ext2.kit.PageViewKit;
 import com.jfinal.ext2.plugin.activerecord.generator.ModelExtGenerator;
 import com.jfinal.ext2.plugin.druid.DruidEncryptPlugin;
+import com.jfinal.ext2.upload.filerenamepolicy.RandomFileRenamePolicy;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.generator.BaseModelGenerator;
 import com.jfinal.plugin.activerecord.generator.Generator;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.ViewType;
+import com.jfinal.upload.OreillyCos;
 
 /**
  * @author BruceZCQ
@@ -49,9 +52,6 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	private final static String cfg = "cfg.txt";
 	
 	public static String APP_NAME = null;
-	public static String UPLOAD_SAVE_DIR = null;
-	public static boolean DEV_MODE = false;
-	
 	protected boolean geRuned = true;
 	
 	/**
@@ -104,18 +104,18 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	public void configConstant(Constants me) {
 		me.setViewType(ViewType.JSP);
 		me.setDevMode(this.getAppDevMode());
-		me.setEncoding("UTF-8");
+		me.setEncoding(Const.DEFAULT_ENCODING);
 		me.setError404View(PageViewKit.get404PageView());
 		me.setError500View(PageViewKit.get500PageView());
 		me.setError403View(PageViewKit.get403PageView());
-		//file save dir
-		String path = this.getSaveDiretory();
-		me.setBaseUploadPath(path);
+		//file upload dir
+		me.setBaseUploadPath(this.getUploadPath());
+		//file download dir
+		me.setBaseDownloadPath(this.getDownloadPath());
 		
 		JFinalConfigExt.APP_NAME = this.getAppName();
-		JFinalConfigExt.DEV_MODE = this.getAppDevMode();
-		JFinalConfigExt.UPLOAD_SAVE_DIR = path;
-		
+		//set file rename policy is random
+		OreillyCos.setFileRenamePolicy(new RandomFileRenamePolicy());
 		// config others
 		configMoreConstants(me);
 	}
@@ -193,30 +193,44 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 		this.loadPropertyFile();
 		return this.getPropertyToBoolean("app.post",false);
 	}
-	
-	/**
-	 * 获取File Save Directory
-	 * "/var/uploads/appname"
-	 * @return
-	 */
-	private String getSaveDiretory(){
+
+	private String getPath(String property) {
+		if (StrKit.isBlank(property) || (!"downloads".equals(property) && !"uploads".equals(property))) {
+			throw new IllegalArgumentException("property is invalid, property just use `downloads` or `uploads`");
+		}
 		this.loadPropertyFile();
 		String app = this.getAppName();
-		String baseDir = this.getProperty("app.upload.basedir");
-		
+		String baseDir = this.getProperty(String.format("app.%s.basedir", property));
 		if (baseDir.endsWith("/")) {
-			if (!baseDir.endsWith("uploads/")) {
-				baseDir += "uploads/";	
+			if (!baseDir.endsWith(property+"/")) {
+				baseDir += (property+"/");	
 			}
 		}else{
-			if (!baseDir.endsWith("uploads")) {
-				baseDir += "/uploads/";
+			if (!baseDir.endsWith(property)) {
+				baseDir += ("/"+property+"/");
 			}else{
 				baseDir += "/";
 			}
 		}
-		
 		return (new StringBuilder(baseDir).append(app).toString());
+	}
+	
+	/**
+	 * 获取File Upload Directory
+	 * "/var/uploads/appname"
+	 * @return
+	 */
+	private String getUploadPath(){
+		return this.getPath("uploads");
+	}
+	
+	/**
+	 * 获取File Download Directory
+	 * "/var/downloads/appname"
+	 * @return
+	 */
+	private String getDownloadPath(){
+		return this.getPath("downloads");
 	}
 	
 	/**

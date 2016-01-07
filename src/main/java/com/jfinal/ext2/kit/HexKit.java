@@ -20,7 +20,7 @@ import com.jfinal.kit.StrKit;
 /**
  * @author BruceZCQ
  */
-public class HexKit {
+final public class HexKit {
 
 	public static byte[] HexStringToBytes(String hexString) {
 		if (StrKit.isBlank(hexString)) {

@@ -24,7 +24,7 @@ import com.jfinal.kit.HttpKit;
  * 
  * @author BruceZCQ
  */
-public class HttpExtKit {
+final public class HttpExtKit {
 
 	/**
 	 * Send Hex String request

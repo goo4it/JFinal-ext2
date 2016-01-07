@@ -24,7 +24,7 @@ import java.util.List;
  * @author BruceZCQ
  *
  */
-public class DDLKit {
+final public class DDLKit {
 	
 	public static final String BIGINT = "bigint";
 	public static final String VARCHAR = "varchar";

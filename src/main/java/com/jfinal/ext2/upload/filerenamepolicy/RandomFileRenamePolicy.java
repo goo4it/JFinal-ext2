@@ -18,22 +18,25 @@ package com.jfinal.ext2.upload.filerenamepolicy;
 import java.io.File;
 
 import com.jfinal.ext2.kit.RandomKit;
-
+import com.oreilly.servlet.multipart.FileRenamePolicy;
 
 /**
- * @author BruceZCQ
  * 随机文件名
- * baseSaveDir/xxxxxx.jpg
+ * @author BruceZCQ
  */
-public class RandomFileRenamePolicy extends FileRenamePolicyWrapper {
-
+public class RandomFileRenamePolicy implements FileRenamePolicy {
+	
 	@Override
-	public File nameProcess(File f, String name, String ext) {
-		String path = f.getParent();
-		this.setSaveDirectory(path);
-		
-		String fileName = RandomKit.randomMD5Str() + ext;
-		
-		return (new File(path, fileName));
+	public File rename(File f) {
+		if (null == f) {
+			return null;
+		}
+		String name = f.getName();
+		String ext = "";
+		int dot = name.lastIndexOf(".");
+		if (dot != -1) {
+			ext = name.substring(dot);
+		 }
+		return (new File(f.getParent(), RandomKit.randomMD5Str() + ext));
 	}
 }

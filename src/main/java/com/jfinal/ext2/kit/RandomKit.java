@@ -24,7 +24,7 @@ import com.jfinal.kit.HashKit;
  * @author BruceZCQ
  *
  */
-public class RandomKit {
+final public class RandomKit {
 
 	public enum SMSAuthCodeType{
 		Numbers,

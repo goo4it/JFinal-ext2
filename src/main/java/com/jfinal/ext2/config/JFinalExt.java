@@ -13,14 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jfinal.ext2.upload.filerenamepolicy;
+package com.jfinal.ext2.config;
+
+import com.jfinal.core.JFinal;
 
 /**
- * 
  * @author BruceZCQ
  *
  */
-public enum NamePolicy{
-		RANDOM_NAME,
-		ORIGINAL_NAME
+final public class JFinalExt {
+
+	/**
+	 * 开发模式
+	 */
+	public static boolean DEV_MODE = JFinal.me().getConstants().getDevMode();
+	
+	/**
+	 * 文件上传目录
+	 */
+	public static String UPLOAD_PATH = JFinal.me().getConstants().getBaseUploadPath();
+	
+	/**
+	 * 文件下载目录
+	 */
+	public static String DOWNLOAD_PATH = JFinal.me().getConstants().getBaseDownloadPath();
+	
+	/**
+	 * 编码
+	 */
+	public static String ENCODING = JFinal.me().getConstants().getEncoding();
+	
 }

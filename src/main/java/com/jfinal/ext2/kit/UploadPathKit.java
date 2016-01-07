@@ -15,19 +15,14 @@
  */
 package com.jfinal.ext2.kit;
 
-import java.util.regex.Pattern;
+import java.io.File;
 
 /**
  * @author BruceZCQ
- *
  */
-final public class MobileValidateKit {
+final public class UploadPathKit {
 
-	public static Boolean isValidate(String mobile) {
-		 return Pattern
-			.compile(
-					"^((13[0-9])|(147)|(15[^4,\\D])|(18[0-9])|(17[0-9]))\\d{8}$")
-			.matcher(mobile).find();
+	public static String getDatePath() {
+		return DateTimeKit.formatNowToStyle(File.separator+"yyyy" + File.separator + "M" + File.separator + "d" + File.separator);
 	}
-	
 }

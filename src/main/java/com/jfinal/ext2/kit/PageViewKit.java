@@ -28,9 +28,8 @@ package com.jfinal.ext2.kit;
        	|-- lib
         `-- pageviews
  * @author BruceZCQ
- *
  */
-public class PageViewKit {
+final public class PageViewKit {
 
 	/**
 	 * 工程的WEB-INF目录

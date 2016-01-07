@@ -19,7 +19,7 @@ package com.jfinal.ext2.kit;
  * @author BruceZCQ
  *
  */
-public class SqlKit {
+final public class SqlKit {
 	
 	public static final String select = "SELECT";
 	public static final String update = "UPDATE";

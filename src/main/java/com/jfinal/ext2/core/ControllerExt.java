@@ -19,18 +19,15 @@ import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.util.List;
 
+import com.jfinal.ext2.kit.UploadPathKit;
 import com.jfinal.log.Log;
-import com.jfinal.upload.OreillyCos;
 import com.jfinal.upload.UploadFile;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.oreilly.servlet.multipart.FileRenamePolicy;
 
 /**
  * @author BruceZCQ Jun 22, 20154:15:48 PM
  */
 public abstract class ControllerExt extends com.jfinal.core.Controller {
 
-	private static final FileRenamePolicy fileRenamePolicy = new DefaultFileRenamePolicy();
 	protected Log log = Log.getLog(this.getClass());
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -53,119 +50,34 @@ public abstract class ControllerExt extends com.jfinal.core.Controller {
 		}
 	}
 
+	/**
+	 * Get upload file save to date path.
+	 */
+	public List<UploadFile> getFilesSaveToDatePath(Integer maxPostSize, String encoding) {
+		return super.getFiles(UploadPathKit.getDatePath(), maxPostSize, encoding);
+	}
+	
+	public UploadFile getFileSaveToDatePath(String parameterName, Integer maxPostSize, String encoding) {
+		return super.getFile(parameterName, UploadPathKit.getDatePath(), maxPostSize, encoding);
+	}
+	
+	public List<UploadFile> getFilesSaveToDatePath(Integer maxPostSize) {
+		return super.getFiles(UploadPathKit.getDatePath(), maxPostSize);
+	}
+	
+	public UploadFile getFileSaveToDatePath(String parameterName, Integer maxPostSize) {
+		return super.getFile(parameterName, UploadPathKit.getDatePath(), maxPostSize);
+	}
+	
+	public List<UploadFile> getFilesSaveToDatePath() {
+		return super.getFiles(UploadPathKit.getDatePath());
+	}
+	
+	public UploadFile getFileSaveToDatePath(String parameterName) {
+		return super.getFile(parameterName, UploadPathKit.getDatePath());
+	}
+	
 	// --------
-	/**
-	 * Get upload file from multipart request.
-	 */
-	
-	/**
-	 * call Super
-	 */
-	public List<UploadFile> getFiles(String saveDirectory, Integer maxPostSize,
-			String encoding, FileRenamePolicy fileRenamePolicy) {
-		OreillyCos.setFileRenamePolicy(fileRenamePolicy);
-		return super.getFiles(saveDirectory, maxPostSize, encoding);
-	}
-	
-	public List<UploadFile> getFiles(String saveDirectory, int maxPostSize,
-			FileRenamePolicy fileRenamePolicy) {
-		OreillyCos.setFileRenamePolicy(fileRenamePolicy);
-		return super.getFiles(saveDirectory, maxPostSize);
-	}
-
-	public List<UploadFile> getFiles(String saveDirectory,
-			FileRenamePolicy fileRenamePolicy) {
-		OreillyCos.setFileRenamePolicy(fileRenamePolicy);
-		return super.getFiles(saveDirectory);
-	}
-	
-	public List<UploadFile> getFiles(FileRenamePolicy fileRenamePolicy) {
-		OreillyCos.setFileRenamePolicy(fileRenamePolicy);
-		return super.getFiles();
-	}
-	
-	/**
-	 * call self
-	 */
-	
-	/**
-	 * File
-	 */
-	public UploadFile getFile(String parameterName, String saveDirectory,
-			Integer maxPostSize, String encoding) {
-		return this.getFile(parameterName, saveDirectory, maxPostSize, encoding,
-				fileRenamePolicy);
-	}
-
-	public UploadFile getFile(String parameterName, String saveDirectory,
-			Integer maxPostSize, String encoding,
-			FileRenamePolicy fileRenamePolicy) {
-		this.getFiles(saveDirectory, maxPostSize, encoding, fileRenamePolicy);
-		return this.getFile(parameterName, fileRenamePolicy);
-	}
-
-	public UploadFile getFile(String parameterName, String saveDirectory,
-			int maxPostSize) {
-		return this.getFile(parameterName, saveDirectory, maxPostSize,
-				fileRenamePolicy);
-	}
-
-	public UploadFile getFile(String parameterName, String saveDirectory,
-			int maxPostSize, FileRenamePolicy fileRenamePolicy) {
-		this.getFiles(saveDirectory, maxPostSize, fileRenamePolicy);
-		return this.getFile(parameterName, fileRenamePolicy);
-	}
-
-	public UploadFile getFile(String parameterName, String saveDirectory) {
-		return this.getFile(parameterName, saveDirectory, fileRenamePolicy);
-	}
-
-	public UploadFile getFile(String parameterName, String saveDirectory,
-			FileRenamePolicy fileRenamePolicy) {
-		this.getFiles(saveDirectory, fileRenamePolicy);
-		return this.getFile(parameterName, fileRenamePolicy);
-	}
-
-	public UploadFile getFile() {
-		return this.getFile(fileRenamePolicy);
-	}
-
-	public UploadFile getFile(FileRenamePolicy fileRenamePolicy) {
-		List<UploadFile> uploadFiles = this.getFiles(fileRenamePolicy);
-		return uploadFiles.size() > 0 ? uploadFiles.get(0) : null;
-	}
-
-	public UploadFile getFile(String parameterName) {
-		return this.getFile(parameterName, fileRenamePolicy);
-	}
-
-	public UploadFile getFile(String parameterName,
-			FileRenamePolicy fileRenamePolicy) {
-		List<UploadFile> uploadFiles = this.getFiles(fileRenamePolicy);
-		for (UploadFile uploadFile : uploadFiles) {
-			if (uploadFile.getParameterName().equals(parameterName)) {
-				return uploadFile;
-			}
-		}
-		return null;
-	}
-
-
-	/**
-	 * Files
-	 */
-	public List<UploadFile> getFiles(String saveDirectory, Integer maxPostSize,
-			String encoding) {
-		return this.getFiles(saveDirectory, maxPostSize, encoding, fileRenamePolicy);
-	}
-
-	public List<UploadFile> getFiles(String saveDirectory, int maxPostSize) {
-		return this.getFiles(saveDirectory, maxPostSize, fileRenamePolicy);
-	}
-
-	public List<UploadFile> getFiles(String saveDirectory) {
-		return this.getFiles(saveDirectory, fileRenamePolicy);
-	}
 
 	/**
 	 * Returns the value of a request parameter and convert to BigInteger.
