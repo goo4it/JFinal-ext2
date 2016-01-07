@@ -230,11 +230,4 @@ public class MockHttpResponse implements HttpServletResponse {
     public void setStatus(int arg0, String arg1) {
 
     }
-
-	@Override
-	public void setContentLengthLong(long arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

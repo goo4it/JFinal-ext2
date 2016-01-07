@@ -458,11 +458,4 @@ public class MockServletContext implements ServletContext {
     public void setSessionTrackingModes(Set<SessionTrackingMode> arg0) {
 
     }
-
-	@Override
-	public String getVirtualServerName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

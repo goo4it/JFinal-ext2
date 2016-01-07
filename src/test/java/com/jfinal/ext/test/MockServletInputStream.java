@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 
 public class MockServletInputStream extends ServletInputStream {
@@ -34,23 +33,4 @@ public class MockServletInputStream extends ServletInputStream {
     public int read() throws IOException {
         return is.read();
     }
-
-	@Override
-	public boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isReady() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setReadListener(ReadListener arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
