@@ -1,0 +1,46 @@
+#---------------------------------------------------------------------------------#
+#  database　Config
+# 1. db.ds: db datasource name, use ',' split. eg :mysql,oracle;
+# 2. db.*.active:ture, use db,* is the ds name;
+# 3. db.*.url: db url,* is the ds name;
+# 4. db.*.user: db username,* is the ds name;
+# 5. db.*.password: db password,* is the ds name, 
+#	use `java -cp druid-xx.jar com.alibaba.druid.filter.config.ConfigTools your_password`
+#	generate your encrypt password;
+# 6. db.*.initsize: db pool init size,* is the ds name;
+# 7. db.*.maxactive: db pool maxactive,* is the ds name;
+# 8. db.showsql: ture, show execute sql;
+#---------------------------------------------------------------------------------#
+db.ds = mysql
+db.mysql.active = false
+db.mysql.url = testing_host/db
+db.mysql.user = 
+db.mysql.password = lCzd9geWAuAuJtLhpaG/J+d28H8KiMFAWopxXkYpMNdUai6Xe/LsPqMQeg5MIrmvtMa+hzycdRhWs29ZUPU1IQ==
+db.mysql.initsize = 6
+db.mysql.maxactive = 100
+db.showsql = true
+#---------------------------------------------------------------------------------#
+# Generator Config
+# 1. ge.dict: true, generate the data dict;
+# 2. ge.base.model.outdir: the basemodel output dir path;
+# 3. ge.base.model.package: the basemodel package;
+# 4. ge.model.outdir: the model output dir path;
+# 5. ge.model.package: the model package;
+#---------------------------------------------------------------------------------#
+ge.dict=true
+ge.base.model.outdir=
+ge.base.model.package=
+ge.model.outdir=
+ge.model.package=
+#---------------------------------------------------------------------------------#
+## App Config
+# 1. app.dev: true, the app is debug mode;
+# 2. app.upload.basedir: upload file save base dir;
+# 3. app.post: ture, use Http Post method;
+# 4. app.name: app's name;
+#---------------------------------------------------------------------------------#
+app.dev = true
+app.uploads.basedir = /var/uploads
+app.downloads.basedir = /var/downloads
+app.post = true
+app.name = 
