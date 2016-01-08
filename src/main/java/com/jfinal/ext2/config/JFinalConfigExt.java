@@ -331,15 +331,28 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 			Class<?> clazz = Class.forName(this.getModelPackage()+"._MappingKit");
 			Method mapping = clazz.getMethod("mapping", ActiveRecordPlugin.class);
 			mapping.invoke(clazz, arp);
-		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException e) {
-			try {
-				throw e;
-			} catch (Exception e1) {
-				throw (new RuntimeException(String.valueOf(e1)));
-			}
+		} catch (SecurityException e) {
+			this.throwException(e);
+		} catch (IllegalArgumentException e) {
+			this.throwException(e);
+		} catch (ClassNotFoundException e) {
+			this.throwException(e);
+		} catch (NoSuchMethodException e) {
+			this.throwException(e);
+		} catch (IllegalAccessException e) {
+			this.throwException(e);
+		} catch (InvocationTargetException e) {
+			this.throwException(e);
 		}
 		return arp;
+	}
+	
+	private void throwException(Exception e) {
+		try {
+			throw e;
+		} catch (Exception e1) {
+			throw (new RuntimeException(String.valueOf(e1)));
+		}
 	}
 	
 	private String modelPackage = null;
