@@ -6,6 +6,17 @@
 3. 删除设计不合理的FileRenamePolicy,保留RandomFileRenamePolicy;
 4. 加入UploadPathKit,获取日期格式的 path,比如当前日期是2016-1-7则目录为:/var/uploads/appname/2016/1/7/xxxxx.jpg;
 5. 修改OreillyCos默认的 filerenamepolicy 为RandomFileRenamePolicy,可以在configMoreConstants中自行修改;
+6. push到中央仓库;
+
+怎样使用
+
+```java
+<dependency>
+  <groupId>com.jfinal</groupId>
+  <artifactId>jfinal-ext2</artifactId>
+  <version>2.0.2</version>
+</dependency>
+```
 
 #####v2.0.1更新内容
 1. 自动 mapping 生成的 model;
