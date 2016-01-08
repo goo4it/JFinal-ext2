@@ -1,0 +1,29 @@
+#########
+## DB　Config
+#########
+dbactive = true
+datasourcecnt = 1
+
+# datasouce 
+# autotablebind1 = true,使用 AutoTableBindPlugin
+# autotablebind1 = false, 使用ActiveRecordPlugin
+autotablebind1 = false
+configname1 = config1
+dbUrl1 = testing_host/db
+
+# common data base setting
+user = 
+password = 
+initsize = 6
+maxactive = 100
+dbtype = mysql
+showSql = true
+##########
+## App Config
+##########
+# is dev mode
+dev = true
+# file save directory
+savebasedir = /var/uploads
+#current app name
+webappname = 
