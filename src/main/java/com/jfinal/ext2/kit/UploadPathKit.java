@@ -18,10 +18,15 @@ package com.jfinal.ext2.kit;
 import java.io.File;
 
 /**
+ * Upload file path
  * @author BruceZCQ
  */
 final public class UploadPathKit {
 
+	/**
+	 *  Upload file path ref current datetime
+	 * @return
+	 */
 	public static String getDatePath() {
 		return DateTimeKit.formatNowToStyle(File.separator+"yyyy" + File.separator + "M" + File.separator + "d" + File.separator);
 	}

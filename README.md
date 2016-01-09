@@ -7,6 +7,7 @@
 4. 加入UploadPathKit,获取日期格式的 path,比如当前日期是2016-1-7则目录为:/var/uploads/appname/2016/1/7/xxxxx.jpg;
 5. 修改OreillyCos默认的 filerenamepolicy 为RandomFileRenamePolicy,可以在configMoreConstants中自行修改;
 6. push到中央仓库;
+7. 整合 jfinal-ext,修改了 jfinal-ext 中对 jfinal2.1的部分错误;
 
 怎样使用
 
