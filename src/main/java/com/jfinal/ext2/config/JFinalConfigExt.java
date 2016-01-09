@@ -32,7 +32,7 @@ import com.jfinal.ext2.handler.ActionExtentionHandler;
 import com.jfinal.ext2.interceptor.ExceptionInterceptorExt;
 import com.jfinal.ext2.interceptor.NotFoundActionInterceptor;
 import com.jfinal.ext2.kit.PageViewKit;
-import com.jfinal.ext2.plugin.activerecord.generator.ModelExtGenerator;
+import com.jfinal.ext2.plugin.activerecord.generator.ModelGeneratorExt;
 import com.jfinal.ext2.plugin.druid.DruidEncryptPlugin;
 import com.jfinal.ext2.upload.filerenamepolicy.RandomFileRenamePolicy;
 import com.jfinal.kit.StrKit;
@@ -99,7 +99,7 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	 * 404 : /WEB-INF/errorpages/404.jsp <br/>
 	 * 500 : /WEB-INF/errorpages/500.jsp <br/>
 	 * 403 : /WEB-INF/errorpages/403.jsp <br/>
-	 * UploadedFileSaveDirectory : cfg basedir + WebappName <br/>
+	 * UploadedFileSaveDirectory : cfg basedir + appName <br/>
 	 */
 	public void configConstant(Constants me) {
 		me.setViewType(ViewType.JSP);
@@ -135,7 +135,6 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 
 	/**
 	 * Config plugin
-	 * TODO 自动 mapping
 	 */
 	public void configPlugin(Plugins me) {
 			String[] dses = this.getDataSource();
@@ -295,7 +294,11 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 	private DruidEncryptPlugin getDruidPlugin(String ds) {
 		this.loadPropertyFile();
 		String url = this.getProperty(String.format("db.%s.url", ds));
-		DruidEncryptPlugin dp = new DruidEncryptPlugin(String.format(URL_TEMPLATE, ds, url),
+		url = String.format(URL_TEMPLATE, ds, url);
+		if (!url.endsWith("?characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull")) {
+			url += "?characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull";
+		}
+		DruidEncryptPlugin dp = new DruidEncryptPlugin(url,
 				this.getProperty(String.format(USER_TEMPLATE, ds)),
 				this.getProperty(String.format(PASSWORD_TEMPLATE, ds)));
 		dp.setInitialSize(this.getPropertyToInt(String.format(INITSIZE_TEMPLATE, ds)));
@@ -308,7 +311,7 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 		if (!this.geRuned) {
 			dp.start();
 			BaseModelGenerator baseGe = new BaseModelGenerator(this.getBaseModelPackage(), this.getBaseModelOutDir());
-			ModelExtGenerator modelGe = new ModelExtGenerator(this.getModelPackage(), this.getBaseModelPackage(), this.getModelOutDir());
+			ModelGeneratorExt modelGe = new ModelGeneratorExt(this.getModelPackage(), this.getBaseModelPackage(), this.getModelOutDir());
 			Generator ge = new Generator(dp.getDataSource(), baseGe, modelGe);
 			ge.setGenerateDataDictionary(this.getGeDictionary());
 			ge.generate();

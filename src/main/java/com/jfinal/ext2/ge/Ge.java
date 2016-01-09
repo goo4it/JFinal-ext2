@@ -18,11 +18,13 @@ package com.jfinal.ext2.ge;
 import com.jfinal.ext2.config.StandaloneDbConfig;
 
 /**
+ * Generate Tool
  * @author BruceZCQ
  */
 public class Ge {
 
 	/**
+	 * Generate the models and base models
 	 * @param args
 	 */
 	public static void main(String[] args) {
