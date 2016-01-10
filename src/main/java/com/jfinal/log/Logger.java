@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2015, James Zhan 詹波 (jfinal@126.com).
+ * Copyright (c) 2015-2016, BruceZCQ (zcq@zhucongqi.cn).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.jfinal.log;
 
 import com.jfinal.ext2.log.ILogFactoryExt;
