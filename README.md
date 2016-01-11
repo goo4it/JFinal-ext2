@@ -1,5 +1,10 @@
 # JFinal-ext2
 
+#####v2.0.3更新内容
+1. 加入 Logger 兼容旧版本JFinal中的 Logger;
+2. 更新JFinal版本到正式版本 JFinal2.1;
+3. 调整了结构;
+
 #####v2.0.2更新内容
 1. 加入 JFinalExt,更方面的获取DEV_MODE,UPLOAD_PATH,DOWNLOAD_PATH,ENCODING;
 2. cfg.txt 中加入app.downloads.basedir,设置 app 的 uploads 和 downloads 目录,目录格式为basedir+app_name+文件路径;
@@ -7,6 +12,7 @@
 4. 加入UploadPathKit,获取日期格式的 path,比如当前日期是2016-1-7则目录为:/var/uploads/appname/2016/1/7/xxxxx.jpg;
 5. 修改OreillyCos默认的 filerenamepolicy 为RandomFileRenamePolicy,可以在configMoreConstants中自行修改;
 6. push到中央仓库;
+7. 整合 jfinal-ext,修改了 jfinal-ext 中对 jfinal2.1的部分错误;
 
 怎样使用
 

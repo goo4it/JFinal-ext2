@@ -19,9 +19,10 @@ import com.jfinal.plugin.activerecord.generator.ModelGenerator;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
 
 /**
+ * ModelGenerator Extension: generate the table name
  * @author BruceZCQ
  */
-public class ModelExtGenerator extends ModelGenerator {
+public class ModelGeneratorExt extends ModelGenerator {
 	
 	protected String tableTemplate = "\tpublic static final String table = \"%s\";%n";
 
@@ -30,7 +31,7 @@ public class ModelExtGenerator extends ModelGenerator {
 	 * @param baseModelPackageName
 	 * @param modelOutputDir
 	 */
-	public ModelExtGenerator(String modelPackageName, String baseModelPackageName, String modelOutputDir) {
+	public ModelGeneratorExt(String modelPackageName, String baseModelPackageName, String modelOutputDir) {
 		super(modelPackageName, baseModelPackageName, modelOutputDir);
 	}
 

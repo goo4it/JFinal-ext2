@@ -13,21 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jfinal.ext2.kit;
+package com.jfinal.ext2.log;
 
-import java.io.File;
+import com.jfinal.log.JdkLogFactory;
+import com.jfinal.log.Logger;
 
 /**
- * Upload file path
+ * JdkLogFactoryExt
  * @author BruceZCQ
  */
-final public class UploadPathKit {
+public class JdkLogFactoryExt extends JdkLogFactory implements ILogFactoryExt {
 
-	/**
-	 *  Upload file path ref current datetime
-	 * @return
-	 */
-	public static String getDatePath() {
-		return DateTimeKit.formatNowToStyle(File.separator+"yyyy" + File.separator + "M" + File.separator + "d" + File.separator);
+	@Override
+	public Logger getLogger(Class<?> clazz) {
+		return new JdkLogExt(clazz);
 	}
+
+	@Override
+	public Logger getLogger(String name) {
+		return new JdkLogExt(name);
+	}
+
 }

@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jfinal.ext2.kit;
+package com.jfinal.ext2.log;
 
-import java.io.File;
+import com.jfinal.log.ILogFactory;
+import com.jfinal.log.Logger;
 
 /**
- * Upload file path
- * @author BruceZCQ
+ * ILogFactoryExt.
  */
-final public class UploadPathKit {
-
-	/**
-	 *  Upload file path ref current datetime
-	 * @return
-	 */
-	public static String getDatePath() {
-		return DateTimeKit.formatNowToStyle(File.separator+"yyyy" + File.separator + "M" + File.separator + "d" + File.separator);
-	}
+public interface ILogFactoryExt extends ILogFactory {
+	
+	Logger getLogger(Class<?> clazz);
+	
+	Logger getLogger(String name);
 }
