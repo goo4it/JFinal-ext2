@@ -24,7 +24,6 @@ import com.jfinal.log.Log;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderException;
 
-@SuppressWarnings("serial")
 public class AmChartsRender extends Render implements AmChartsConstans {
 
     public static int globalHeight = 600;

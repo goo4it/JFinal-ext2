@@ -35,14 +35,8 @@ public class ModelKit {
 
     protected final static Log logger = Log.getLog(ModelKit.class);
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public static Record toRecord(Model model) {
-        Record record = new Record();
-        Set<Entry<String, Object>> attrs = model._getAttrsEntrySet();
-        for (Entry<String, Object> entry : attrs) {
-            record.set(entry.getKey(), entry.getValue());
-        }
-        return record;
+    public static Record toRecord(Model<?> model) {
+        return model.toRecord();
     }
 
     @SuppressWarnings("rawtypes")

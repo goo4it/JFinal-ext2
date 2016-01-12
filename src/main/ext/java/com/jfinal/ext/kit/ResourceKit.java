@@ -25,6 +25,7 @@ import com.google.common.collect.Maps;
 import com.google.common.io.Resources;
 
 public class ResourceKit {
+	
     public static Map<String, String> readProperties(String resourceName) {
         Properties properties = new Properties();
         URL resource = Resources.getResource(resourceName);
@@ -35,5 +36,4 @@ public class ResourceKit {
         }
         return Maps.fromProperties(properties);
     }
-
 }

@@ -15,7 +15,6 @@
  */
 package com.jfinal.ext.interceptor.syslog;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import com.jfinal.core.Controller;

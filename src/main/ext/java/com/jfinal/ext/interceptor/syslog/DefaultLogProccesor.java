@@ -1,15 +1,17 @@
 package com.jfinal.ext.interceptor.syslog;
 
-import com.jfinal.core.Controller;
-import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Record;
-import org.apache.commons.beanutils.BeanUtils;
-
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.beanutils.BeanUtils;
+
+import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Record;
+
 public class DefaultLogProccesor implements LogProcessor {
-    @Override
+	
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
     public void process(SysLog sysLog) {
         Map map = null;
         try {

@@ -24,7 +24,6 @@ import com.jfinal.log.Log;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderException;
 
-@SuppressWarnings("serial")
 public class FunshionChartsRender extends Render implements FunshionChartsConstans {
 
     private static final String CONTENT_TYPE = "text/html;charset=" + getEncoding();
