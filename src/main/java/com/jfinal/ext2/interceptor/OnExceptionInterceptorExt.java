@@ -17,34 +17,23 @@ package com.jfinal.ext2.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
-import com.jfinal.core.ActionException;
-import com.jfinal.core.Controller;
 import com.jfinal.ext2.core.ControllerExt;
-import com.jfinal.log.Log;
 
 /**
  * ExceptionInterceptor
  * @author BruceZCQ
  */
-public class ExceptionInterceptorExt implements Interceptor {
+public class OnExceptionInterceptorExt implements Interceptor {
 
-	private Log log = Log.getLog(this.getClass());
-	
 	@Override
 	public void intercept(Invocation inv) {
 		try {
 			inv.invoke();
 		} catch (Exception e) {
-			int errorCode = 500;
-			if (e instanceof ActionException) {
-				errorCode = ((ActionException)e).getErrorCode();
-			}
-			this.log.error(e.getLocalizedMessage());
-			Object target = inv.getTarget();
 			if (inv.getTarget() instanceof ControllerExt) {
-				((ControllerExt)target).onExceptionError(e);
+				((ControllerExt)inv.getTarget()).onExceptionError(e);
 			}
-			((Controller)target).renderError(errorCode);
+			throw e;
 		}
 	}
 }
