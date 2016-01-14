@@ -91,7 +91,7 @@ public class PoiImporter {
     }
 
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({"rawtypes"})
     public static List<Model<?>> processSheet(File file, Rule Rule, Class clazz) {
         List<List<String>> srcList = readSheet(file, Rule);
         List<Model<?>> results = Lists.newArrayList();
@@ -103,8 +103,8 @@ public class PoiImporter {
         return results;
     }
 
-
-    public static Model<?> fillModel(Class<?> clazz, List<String> list, Rule rule) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public static Model<?> fillModel(Class<?> clazz, List<String> list, Rule rule) {
         Model<?> model = Reflect.on(clazz).create().get();
         String[] values = list.toArray(new String[]{});
         String message = "";

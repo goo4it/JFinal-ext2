@@ -24,7 +24,6 @@ import com.jfinal.log.Log;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderException;
 
-@SuppressWarnings("serial")
 public class PoiRender extends Render {
 
     protected final Log LOG = Log.getLog(getClass());

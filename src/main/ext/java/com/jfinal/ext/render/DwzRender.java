@@ -22,8 +22,8 @@ import java.text.MessageFormat;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderException;
 
-@SuppressWarnings("serial")
 public class DwzRender extends Render {
+	
     private static final String CONTENT_TYPE = "text/html;charset=" + getEncoding();
     public static DwzRender closeCurrentAndRefresh(String refreshNavTabId) {
         DwzRender dwzRender = new DwzRender();

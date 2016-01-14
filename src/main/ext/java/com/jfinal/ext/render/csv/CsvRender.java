@@ -22,9 +22,9 @@ import java.util.List;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderException;
 
-@SuppressWarnings("serial")
 public class CsvRender extends Render {
-    private List<String> clomuns;
+   
+	private List<String> clomuns;
     private List<?> data;
     private String encodeType = "gbk";
     private String fileName = "default.csv";

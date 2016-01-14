@@ -29,7 +29,7 @@ import com.jfinal.core.Const;
 import com.jfinal.ext.interceptor.POST;
 import com.jfinal.ext.route.AutoBindRoutes;
 import com.jfinal.ext2.handler.ActionExtentionHandler;
-import com.jfinal.ext2.interceptor.ExceptionInterceptorExt;
+import com.jfinal.ext2.interceptor.OnExceptionInterceptorExt;
 import com.jfinal.ext2.interceptor.NotFoundActionInterceptor;
 import com.jfinal.ext2.kit.PageViewKit;
 import com.jfinal.ext2.plugin.activerecord.generator.ModelGeneratorExt;
@@ -159,7 +159,7 @@ public abstract class JFinalConfigExt extends com.jfinal.config.JFinalConfig {
 		// when action not found fire 404 error
 		me.add(new NotFoundActionInterceptor());
 		// add excetion interceptor
-		me.add(new ExceptionInterceptorExt());
+		me.add(new OnExceptionInterceptorExt());
 		if (this.getHttpPostMethod()) {
 			me.add(new POST());
 		}

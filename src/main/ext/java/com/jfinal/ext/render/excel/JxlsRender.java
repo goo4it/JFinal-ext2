@@ -30,9 +30,10 @@ import com.google.common.collect.Maps;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderException;
 
-@SuppressWarnings("serial")
 public class JxlsRender extends Render {
-    private static final String CONTENT_TYPE = "application/vnd.ms-excel;charset=" + getEncoding();
+    
+	private static final String CONTENT_TYPE = "application/vnd.ms-excel;charset=" + getEncoding();
+   
     public static JxlsRender me(String templetFile) {
         return new JxlsRender(templetFile);
     }

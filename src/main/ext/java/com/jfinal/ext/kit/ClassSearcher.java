@@ -40,7 +40,8 @@ public class ClassSearcher {
 
     private List<String> includeJars = Lists.newArrayList();
 
-    private Class target;
+    @SuppressWarnings("rawtypes")
+	private Class target;
 
     @SuppressWarnings("unchecked")
     private static <T> List<Class<? extends T>> extraction(Class<T> clazz, List<String> classFileList) {
@@ -55,7 +56,8 @@ public class ClassSearcher {
         return classList;
     }
 
-    public static ClassSearcher of(Class target) {
+    @SuppressWarnings("rawtypes")
+	public static ClassSearcher of(Class target) {
         return new ClassSearcher(target);
     }
 
@@ -84,7 +86,7 @@ public class ClassSearcher {
                         String close = ".class";
                         int start = fileName.indexOf(open);
                         int end = fileName.indexOf(close, start + open.length());
-                        String className = fileName.substring(start + open.length(), end).replaceAll(File.separator, ".");
+                        String className = fileName.substring(start + open.length(), end).replace(File.separator, ".");
                         classFiles.add(className);
                     }
                 }
@@ -131,7 +133,8 @@ public class ClassSearcher {
         return strIndex == strLength;
     }
 
-    public <T> List<Class<? extends T>> search() {
+    @SuppressWarnings("unchecked")
+	public <T> List<Class<? extends T>> search() {
         List<String> classFileList = Lists.newArrayList();
         if (scanPackages.isEmpty()) {
             classFileList = findFiles(classpath, "*.class");
@@ -200,7 +203,8 @@ public class ClassSearcher {
         return classFiles;
     }
 
-    public ClassSearcher(Class target) {
+    @SuppressWarnings("rawtypes")
+	public ClassSearcher(Class target) {
         this.target = target;
     }
 

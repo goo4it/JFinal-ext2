@@ -70,7 +70,8 @@ public class TopicConsumer {
         return message;
     }
 
-    private <T extends Serializable> T readUntilEnd() {
+    @SuppressWarnings("unchecked")
+	private <T extends Serializable> T readUntilEnd() {
         if (unreadMessages() > 0) {
             Serializable message = read();
             return (T)message;
