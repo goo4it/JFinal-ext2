@@ -1,5 +1,13 @@
 # JFinal-ext2
 
+#####v2.0.5更新内容
+1. 加入 redis shard plugin;
+2. 删除 ext 中的 redis 插件;
+
+#####v2.0.4更新内容
+1. 更新excetioninterceptor逻辑;
+2. fixed #1 bug;
+
 #####v2.0.3更新内容
 1. 加入 Logger 兼容旧版本JFinal中的 Logger;
 2. 更新JFinal版本到正式版本 JFinal2.1;

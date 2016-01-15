@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jfinal.ext2.plugin.redis.ext;
+package com.jfinal.ext2.plugin.redis;
 
 import com.jfinal.plugin.redis.IKeyNamingPolicy;
 
