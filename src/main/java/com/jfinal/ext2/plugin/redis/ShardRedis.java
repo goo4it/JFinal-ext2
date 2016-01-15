@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2013, kidzhou 周磊 (zhouleib1412@gmail.com)
+ * Copyright (c) 2015-2016, BruceZCQ (zcq@zhucongqi.cn).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jfinal.ext.plugin.redis;
+package com.jfinal.ext2.plugin.redis;
 
-import redis.clients.jedis.Jedis;
+/**
+ * ShardRedis.
+ */
+public class ShardRedis {
+	
+	static ShardCache shardCache = null;
+	
+	static void setShardCache(ShardCache shardCache) {
+		ShardRedis.shardCache = shardCache;
+	}
 
-public interface JedisAction<T> {
-
-    T action(Jedis jedis);
+	public static ShardCache userShard() {
+		return ShardRedis.shardCache;
+	}
 }
+
+
+
+
