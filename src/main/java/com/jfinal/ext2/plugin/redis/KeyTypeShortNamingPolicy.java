@@ -13,19 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jfinal.ext2.kit;
+package com.jfinal.ext2.plugin.redis;
+
+import com.jfinal.plugin.redis.IKeyNamingPolicy;
 
 /**
- * Upload file path
- * @author BruceZCQ
+ * 简短的类型名称Policy
+ * @author BruceZCQ [zcq@zhucongqi.cn]
+ * @version
  */
-final public class UploadPathKit {
+public class KeyTypeShortNamingPolicy implements IKeyNamingPolicy {
 
-	/**
-	 *  Upload file path ref current datetime
-	 * @return
-	 */
-	public static String getDatePath() {
-		return DateTimeKit.formatNowToStyle("/yyyy/M/d");
+	@Override
+	public String getKeyName(Object key) {
+		if(key instanceof Number)
+			return "N:" + key;
+		else{
+			Class<? extends Object> keyClass = key.getClass();
+			if(String.class.equals(keyClass) || StringBuffer.class.equals(keyClass) || StringBuilder.class.equals(keyClass))
+				return "S:" + key;
+		}
+		return "O:" + key;
 	}
+
 }

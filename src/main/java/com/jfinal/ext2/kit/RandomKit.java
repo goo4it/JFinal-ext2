@@ -26,7 +26,7 @@ import com.jfinal.kit.HashKit;
  */
 final public class RandomKit {
 
-	public enum SMSAuthCodeType{
+	public enum SMSCodeType{
 		Numbers,
 		CharAndNumbers,
 	}
@@ -37,7 +37,7 @@ final public class RandomKit {
 	 * @return
 	 */
 	public static String smsAuthCode(int codeLen){
-		return smsAuthCode(codeLen, SMSAuthCodeType.Numbers);
+		return smsAuthCode(codeLen, SMSCodeType.Numbers);
 	}
 	
 	/**
@@ -46,9 +46,9 @@ final public class RandomKit {
 	 * @param type
 	 * @return
 	 */
-	public static String smsAuthCode(int codeLen, SMSAuthCodeType type){
+	public static String smsAuthCode(int codeLen, SMSCodeType type){
 		String randomCode = "";
-		String strTable = type == SMSAuthCodeType.Numbers ? "1234567890"
+		String strTable = type == SMSCodeType.Numbers ? "1234567890"
 				: "1234567890abcdefghijkmnpqrstuvwxyz";
 		int len = strTable.length();
 		boolean bDone = true;

@@ -22,11 +22,34 @@ package com.jfinal.ext2.kit;
 |   |-- WEB-INF
  		|-- classes  
 		|-- errorpages
-   		|	|-- 403.html
-		|	|-- 404.html
-   	   	|	`-- 500.html
+   		|	|-- 403.jsp
+		|	|-- 404.jsp
+   	   	|	`-- 500.jsp
        	|-- lib
         `-- pageviews
+        	|-- login
+        	| 	|-- login.jsp
+        		`-- ..jsp
+        	|-- admin
+        	|	|-- ..
+        	|	`-- ..
+        	`-- ..
+        	
+   <pre>
+   web.xml:
+   	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/errorpages/403.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/errorpages/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/errorpages/500.jsp</location>
+	</error-page>
+   </pre>
  * @author BruceZCQ
  */
 final public class PageViewKit {
