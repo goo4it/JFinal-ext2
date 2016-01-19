@@ -4,7 +4,9 @@
 package cn.zhucongqi.shardredis;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.ext2.plugin.redis.ShardCache;
 import com.jfinal.ext2.plugin.redis.ShardRedis;
@@ -34,7 +36,15 @@ public class ShardRedisCache {
 		cache.set("zcq", "--BruceZCQ---");
 		cache.set("zcq1", "--BruceZCQ---");
 		
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("name", "朱丛启");
+		map.put("addr", "北京市");
+		
+		cache.hmset("map1", map);
+		
 		System.out.println(cache.get("zcq1"));
+		
+		System.out.println(cache.hvals("map1"));
 	}
 
 }

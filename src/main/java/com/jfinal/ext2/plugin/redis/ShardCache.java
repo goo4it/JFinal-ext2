@@ -16,6 +16,7 @@
 package com.jfinal.ext2.plugin.redis;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -23,8 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import com.jfinal.plugin.redis.IKeyNamingPolicy;
 import com.jfinal.plugin.redis.serializer.ISerializer;
+
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
@@ -58,6 +61,19 @@ public class ShardCache {
 	}
 	
 	/**
+	 * 将 key 的值设为 value ，当且仅当 key 不存在。
+	 * 若给定的 key 已经存在，则 SETNX 不做任何动作。
+	 * SETNX 是『SET if Not eXists』(如果不存在，则 SET)的简写。
+	 */
+	public Long setnx(Object key, Object value) {
+		ShardedJedis jedis = getJedis();
+		try {
+			return jedis.setnx(keyToBytes(key), valueToBytes(value));
+		} 
+		finally {close(jedis);}
+	}
+	
+	/**
 	 * 存放 key value 对到 redis，并将 key 的生存时间设为 seconds (以秒为单位)。
 	 * 如果 key 已经存在， SETEX 命令将覆写旧值。
 	 */
@@ -65,6 +81,29 @@ public class ShardCache {
 		ShardedJedis jedis = getJedis();
 		try {
 			return jedis.setex(keyToBytes(key), seconds, valueToBytes(value));
+		}
+		finally {close(jedis);}
+	}
+	
+	/**
+	 * 如果 key 已经存在并且是一个字符串， APPEND 命令将 value 追加到 key 原来的值的末尾。
+	 * 如果 key 不存在， APPEND 就简单地将给定 key 设为 value ，就像执行 SET key value 一样。
+	 */
+	public Long append(Object key, Object value) {
+		ShardedJedis jedis = getJedis();
+		try {
+			return jedis.append(keyToBytes(key), valueToBytes(value));
+		}
+		finally {close(jedis);}
+	}
+	
+	/**
+	 * 截取 key 对应的一个字符串 
+	 */
+	public Object substr(Object key, int start, int end) {
+		ShardedJedis jedis = getJedis();
+		try {
+			return valueToBytes(jedis.substr(keyToBytes(key), start, end));
 		}
 		finally {close(jedis);}
 	}
@@ -78,6 +117,18 @@ public class ShardCache {
 		ShardedJedis jedis = getJedis();
 		try {
 			return (T)valueFromBytes(jedis.get(keyToBytes(key)));
+		}
+		finally {close(jedis);}
+	}
+	
+	/**
+	 * 返回 key 所储存的字符串值的长度。
+	 * 当 key 储存的不是字符串值时，返回一个错误。
+	 */
+	public Long strlen(Object key) {
+		ShardedJedis jedis = getJedis();
+		try {
+			return jedis.strlen(keyToBytes(key));
 		}
 		finally {close(jedis);}
 	}
@@ -149,6 +200,19 @@ public class ShardCache {
 		ShardedJedis jedis = getJedis();
 		try {
 			return jedis.incrBy(keyToBytes(key), longValue);
+		}
+		finally {close(jedis);}
+	}
+	
+	/**
+	 * 为 key 中所储存的值加上浮点数增量 increment 。
+	 * 如果 key 不存在，那么 INCRBYFLOAT 会先将 key 的值设为 0 ，再执行加法操作。
+	 * 如果命令执行成功，那么 key 的值会被更新为（执行加法之后的）新值，并且新值会以字符串的形式返回给调用者。
+	 */
+	public Double incrByFloat(Object key, double doubleValue) {
+		ShardedJedis jedis = getJedis();
+		try {
+			return jedis.incrByFloat(keyToBytes(key), doubleValue);
 		}
 		finally {close(jedis);}
 	}
@@ -247,6 +311,19 @@ public class ShardCache {
 	}
 	
 	/**
+	 * 返回或保存给定列表、集合、有序集合 key 中经过排序的元素。
+	 * 排序默认以数字作为对象，值被解释为双精度浮点数，然后进行比较。
+	 */
+	@SuppressWarnings("rawtypes")
+	public List sort(Object key) {
+		ShardedJedis jedis = getJedis();
+		try {
+			return jedis.sort(keyToBytes(key));
+		}
+		finally {close(jedis);}
+	}
+	
+	/**
 	 * 返回 key 所储存的值的类型。
 	 */
 	public String type(Object key) {
@@ -299,6 +376,19 @@ public class ShardCache {
 		ShardedJedis jedis = getJedis();
 		try {
 			return jedis.hset(keyToBytes(key), fieldToBytes(field), valueToBytes(value));
+		}
+		finally {close(jedis);}
+	}
+	
+	/**
+	 * 将哈希表 key 中的域 field 的值设置为 value ，当且仅当域 field 不存在。
+	 * 若域 field 已经存在，该操作无效。
+	 * 如果 key 不存在，一个新哈希表被创建并执行 HSETNX 命令。
+	 */
+	public Long hsetnx(Object key, Object field, Object value) {
+		ShardedJedis jedis = getJedis();
+		try {
+			return jedis.hsetnx(keyToBytes(key), fieldToBytes(field), valueToBytes(value));
 		}
 		finally {close(jedis);}
 	}
@@ -386,6 +476,19 @@ public class ShardCache {
 	}
 	
 	/**
+	 * 返回哈希表 key 中所有域的值。
+	 */
+	@SuppressWarnings("rawtypes")
+	public List hvals(Object key) {
+		ShardedJedis jedis = getJedis();
+		try {
+			Collection<byte[]> data = jedis.hvals(keyToBytes(key));
+			return valueListFromBytesList(data);
+		}
+		finally {close(jedis);}
+	}
+	
+	/**
 	 * 返回哈希表 key 中的所有域。
 	 */
 	public Set<String> hkeys(Object key) {
@@ -404,6 +507,39 @@ public class ShardCache {
 		ShardedJedis jedis = getJedis();
 		try {
 			return jedis.hlen(keyToBytes(key));
+		}
+		finally {close(jedis);}
+	}
+	
+	/**
+	 * 为哈希表 key 中的域 field 的值加上增量 increment 。
+	 * 增量也可以为负数，相当于对给定域进行减法操作。
+	 * 如果 key 不存在，一个新的哈希表被创建并执行 HINCRBY 命令。
+	 * 如果域 field 不存在，那么在执行命令前，域的值被初始化为 0 。
+	 * 对一个储存字符串值的域 field 执行 HINCRBY 命令将造成一个错误。
+	 * 本操作的值被限制在 64 位(bit)有符号数字表示之内。
+	 */
+	public Long hincrBy(Object key, Object field, long value) {
+		ShardedJedis jedis = getJedis();
+		try {
+			return jedis.hincrBy(keyToBytes(key), fieldToBytes(field), value);
+		}
+		finally {close(jedis);}
+	}
+	
+	/**
+	 * 为哈希表 key 中的域 field 加上浮点数增量 increment 。
+	 * 如果哈希表中没有域 field ，那么 HINCRBYFLOAT 会先将域 field 的值设为 0 ，然后再执行加法操作。
+	 * 如果键 key 不存在，那么 HINCRBYFLOAT 会先创建一个哈希表，再创建域 field ，最后再执行加法操作。
+	 * 当以下任意一个条件发生时，返回一个错误：
+	 * 1:域 field 的值不是字符串类型(因为 redis 中的数字和浮点数都以字符串的形式保存，所以它们都属于字符串类型）
+	 * 2:域 field 当前的值或给定的增量 increment 不能解释(parse)为双精度浮点数(double precision floating point number)
+	 * HINCRBYFLOAT 命令的详细功能和 INCRBYFLOAT 命令类似，请查看 INCRBYFLOAT 命令获取更多相关信息。
+	 */
+	public Double hincrByFloat(Object key, Object field, double value) {
+		ShardedJedis jedis = getJedis();
+		try {
+			return jedis.hincrByFloat(keyToBytes(key), fieldToBytes(field), value);
 		}
 		finally {close(jedis);}
 	}
@@ -479,6 +615,18 @@ public class ShardCache {
 		ShardedJedis jedis = getJedis();
 		try {
 			return jedis.lpush(keyToBytes(key), valuesToBytesArray(values));
+		}
+		finally {close(jedis);}
+	}
+	
+	/**
+	 * 将值 value 插入到列表 key 的表头，当且仅当 key 存在并且是一个列表。
+	 * 和 LPUSH 命令相反，当 key 不存在时， LPUSHX 命令什么也不做。
+	 */
+	public Long lpushx(Object key, Object... values) {
+		ShardedJedis jedis = getJedis();
+		try {
+			return jedis.lpushx(keyToBytes(key), valuesToBytesArray(values));
 		}
 		finally {close(jedis);}
 	}
@@ -909,7 +1057,7 @@ public class ShardCache {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	private List valueListFromBytesList(List<byte[]> data) {
+	private List valueListFromBytesList(Collection<byte[]> data) {
 		List<Object> result = new ArrayList<Object>();
 		for (byte[] d : data)
 			result.add(valueFromBytes(d));
