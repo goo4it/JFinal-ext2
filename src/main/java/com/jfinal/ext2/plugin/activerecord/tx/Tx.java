@@ -26,8 +26,8 @@ import com.jfinal.plugin.activerecord.IAtom;
  */
 public abstract class Tx {
 
-	public void execute() {
-		Db.tx(new IAtom() {
+	public boolean execute() {
+		return Db.tx(new IAtom() {
 			@Override
 			public boolean run() throws SQLException {
 				try {
