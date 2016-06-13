@@ -27,17 +27,17 @@ import com.jfinal.log.Log;
 
 public class AutoBindRoutes extends Routes {
 
-    private boolean autoScan = true;
+    protected boolean                           autoScan       = true;
 
-    private List<Class<? extends Controller>> excludeClasses = Lists.newArrayList();
+    protected List<Class<? extends Controller>> excludeClasses = Lists.newArrayList();
 
-    private boolean includeAllJarsInLib;
+    protected boolean                           includeAllJarsInLib;
 
-    private List<String> includeJars = Lists.newArrayList();
+    protected List<String>                      includeJars    = Lists.newArrayList();
 
-    protected final Log logger = Log.getLog(getClass());
+    protected final Log                         logger         = Log.getLog(getClass());
 
-    private String suffix = "Controller";
+    private String                              suffix         = "Controller";
 
     public AutoBindRoutes autoScan(boolean autoScan) {
         this.autoScan = autoScan;
@@ -45,7 +45,7 @@ public class AutoBindRoutes extends Routes {
     }
 
     @SuppressWarnings("unchecked")
-	public AutoBindRoutes addExcludeClasses(Class<? extends Controller>... clazzes) {
+    public AutoBindRoutes addExcludeClasses(Class<? extends Controller>... clazzes) {
         if (clazzes != null) {
             for (Class<? extends Controller> clazz : clazzes) {
                 excludeClasses.add(clazz);
@@ -96,9 +96,9 @@ public class AutoBindRoutes extends Routes {
         }
     }
 
-    private String controllerKey(Class<Controller> clazz) {
+    protected String controllerKey(Class<Controller> clazz) {
         Preconditions.checkArgument(clazz.getSimpleName().endsWith(suffix),
-                clazz.getName()+" is not annotated with @ControllerBind and not end with " + suffix);
+                clazz.getName() + " is not annotated with @ControllerBind and not end with " + suffix);
         String controllerKey = "/" + StrKit.firstCharToLowerCase(clazz.getSimpleName());
         controllerKey = controllerKey.substring(0, controllerKey.indexOf(suffix));
         return controllerKey;
