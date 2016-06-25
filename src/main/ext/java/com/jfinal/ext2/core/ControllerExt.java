@@ -28,84 +28,97 @@ import com.jfinal.upload.UploadFile;
  */
 public abstract class ControllerExt extends com.jfinal.core.Controller {
 
-	protected Log log = Log.getLog(this.getClass());
+    protected Log log = Log.getLog(this.getClass());
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ControllerExt() {
-		Field[] fields = this.getClass().getDeclaredFields();
-		for (int i = 0; i < fields.length; i++) {
-			Field field = fields[i];
-			Class clazz = field.getType();
-			if (Service.class.isAssignableFrom(clazz) && clazz != Service.class) {
-				try {
-					if (!field.isAccessible()) {
-						field.setAccessible(true);
-					}
-					
-					field.set(this,Service.getInstance(clazz, this));
-				} catch (IllegalAccessException e) {
-					throw new RuntimeException();
-				}
-			}
-		}
-	}
+    protected boolean IS_GET() {
+        return "GET".equals(getRequest().getMethod());
+    }
 
-	/**
-	 * Get upload file save to date path.
-	 */
-	public List<UploadFile> getFilesSaveToDatePath(Integer maxPostSize, String encoding) {
-		return super.getFiles(UploadPathKit.getDatePath(), maxPostSize, encoding);
-	}
-	
-	public UploadFile getFileSaveToDatePath(String parameterName, Integer maxPostSize, String encoding) {
-		return super.getFile(parameterName, UploadPathKit.getDatePath(), maxPostSize, encoding);
-	}
-	
-	public List<UploadFile> getFilesSaveToDatePath(Integer maxPostSize) {
-		return super.getFiles(UploadPathKit.getDatePath(), maxPostSize);
-	}
-	
-	public UploadFile getFileSaveToDatePath(String parameterName, Integer maxPostSize) {
-		return super.getFile(parameterName, UploadPathKit.getDatePath(), maxPostSize);
-	}
-	
-	public List<UploadFile> getFilesSaveToDatePath() {
-		return super.getFiles(UploadPathKit.getDatePath());
-	}
-	
-	public UploadFile getFileSaveToDatePath(String parameterName) {
-		return super.getFile(parameterName, UploadPathKit.getDatePath());
-	}
-	
-	// --------
+    protected boolean IS_POST() {
+        return "POST".equals(getRequest().getMethod());
+    }
 
-	/**
-	 * Returns the value of a request parameter and convert to BigInteger.
-	 * @param name a String specifying the name of the parameter
-	 * @return a BigInteger representing the single value of the parameter
-	 */
-	public BigInteger getParaToBigInteger(String name){
-		return this.toBigInteger(getPara(name), null);
-	}
-	
-	/**
-	 * Returns the value of a request parameter and convert to BigInteger with a default value if it is null.
-	 * @param name a String specifying the name of the parameter
-	 * @return a BigInteger representing the single value of the parameter
-	 */
-	public BigInteger getParaToBigInteger(String name,BigInteger defaultValue){
-		return this.toBigInteger(getPara(name), defaultValue);
-	}
-	
-	private BigInteger toBigInteger(String value, BigInteger defaultValue) {
-		if (value == null || "".equals(value.trim()))
-			return defaultValue;
-		return (new BigInteger(value));
-	}
-	
-	/**
-	 * Reflect Exception
-	 * @param e
-	 */
-	public abstract void onExceptionError(Exception e);
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public ControllerExt() {
+        Field[] fields = this.getClass().getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            Class clazz = field.getType();
+            if (Service.class.isAssignableFrom(clazz) && clazz != Service.class) {
+                try {
+                    if (!field.isAccessible()) {
+                        field.setAccessible(true);
+                    }
+
+                    field.set(this, Service.getInstance(clazz, this));
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException();
+                }
+            }
+        }
+    }
+
+    /**
+     * Get upload file save to date path.
+     */
+    public List<UploadFile> getFilesSaveToDatePath(Integer maxPostSize, String encoding) {
+        return super.getFiles(UploadPathKit.getDatePath(), maxPostSize, encoding);
+    }
+
+    public UploadFile getFileSaveToDatePath(String parameterName, Integer maxPostSize, String encoding) {
+        return super.getFile(parameterName, UploadPathKit.getDatePath(), maxPostSize, encoding);
+    }
+
+    public List<UploadFile> getFilesSaveToDatePath(Integer maxPostSize) {
+        return super.getFiles(UploadPathKit.getDatePath(), maxPostSize);
+    }
+
+    public UploadFile getFileSaveToDatePath(String parameterName, Integer maxPostSize) {
+        return super.getFile(parameterName, UploadPathKit.getDatePath(), maxPostSize);
+    }
+
+    public List<UploadFile> getFilesSaveToDatePath() {
+        return super.getFiles(UploadPathKit.getDatePath());
+    }
+
+    public UploadFile getFileSaveToDatePath(String parameterName) {
+        return super.getFile(parameterName, UploadPathKit.getDatePath());
+    }
+
+    // --------
+
+    /**
+     * Returns the value of a request parameter and convert to BigInteger.
+     * 
+     * @param name
+     *            a String specifying the name of the parameter
+     * @return a BigInteger representing the single value of the parameter
+     */
+    public BigInteger getParaToBigInteger(String name) {
+        return this.toBigInteger(getPara(name), null);
+    }
+
+    /**
+     * Returns the value of a request parameter and convert to BigInteger with a
+     * default value if it is null.
+     * 
+     * @param name
+     *            a String specifying the name of the parameter
+     * @return a BigInteger representing the single value of the parameter
+     */
+    public BigInteger getParaToBigInteger(String name, BigInteger defaultValue) {
+        return this.toBigInteger(getPara(name), defaultValue);
+    }
+
+    private BigInteger toBigInteger(String value, BigInteger defaultValue) {
+        if (value == null || "".equals(value.trim())) return defaultValue;
+        return (new BigInteger(value));
+    }
+
+    /**
+     * Reflect Exception
+     * 
+     * @param e
+     */
+    public abstract void onExceptionError(Exception e);
 }

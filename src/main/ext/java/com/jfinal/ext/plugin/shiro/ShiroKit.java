@@ -17,7 +17,6 @@ package com.jfinal.ext.plugin.shiro;
 
 import java.util.concurrent.ConcurrentMap;
 
-
 /**
  * ShiroKit. (Singleton, ThreadSafe)
  *
@@ -25,25 +24,88 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ShiroKit {
 
-	/**
-	 * 用来记录那个action或者actionpath中是否有shiro认证注解。
-	 */
-	private static ConcurrentMap<String, AuthzHandler> authzMaps = null;
+    /**
+     * 登录成功时所用的页面。
+     */
+    private static String                              successUrl        = "/";
 
-	/**
-	 * 禁止初始化
-	 */
-	private ShiroKit() {}
+    /**
+     * 登录成功时所用的页面。
+     */
+    private static String                              loginUrl          = "/login.html";
 
-	static void init(ConcurrentMap<String, AuthzHandler> maps) {
-		authzMaps = maps;
-	}
+    /**
+     * 登录成功时所用的页面。
+     */
+    private static String                              unauthorizedUrl   = "/401.jsp";
+    private static String                              logoutUrl         = "/";
 
-	static AuthzHandler getAuthzHandler(String actionKey){
-		/*
-		if(authzMaps.containsKey(controllerClassName)){
-			return true;
-		}*/
-		return authzMaps.get(actionKey);
-	}
+    /**
+     * Session中保存的请求的Key值
+     */
+    private static String                              SAVED_REQUEST_KEY = "jfinalShiroSavedRequest";
+
+    /**
+     * 用来记录那个action或者actionpath中是否有shiro认证注解。
+     */
+    private static ConcurrentMap<String, AuthzHandler> authzMaps         = null;
+
+    /**
+     * 禁止初始化
+     */
+    private ShiroKit() {}
+
+    static void init(ConcurrentMap<String, AuthzHandler> maps) {
+        authzMaps = maps;
+    }
+
+    static AuthzHandler getAuthzHandler(String actionKey) {
+        /*
+         * if(authzMaps.containsKey(controllerClassName)){
+         * return true;
+         * }
+         */
+        return authzMaps.get(actionKey);
+    }
+
+    public static final String getSuccessUrl() {
+        return successUrl;
+    }
+
+    public static final void setSuccessUrl(String successUrl) {
+        ShiroKit.successUrl = successUrl;
+    }
+
+    public static final String getLoginUrl() {
+        return loginUrl;
+    }
+
+    public static final void setLoginUrl(String loginUrl) {
+        ShiroKit.loginUrl = loginUrl;
+    }
+
+    public static final String getLogoutUrl() {
+        return logoutUrl;
+    }
+
+    public static final void setLogoutUrl(String logoutUrl) {
+        ShiroKit.logoutUrl = logoutUrl;
+    }
+
+    public static final String getUnauthorizedUrl() {
+        return unauthorizedUrl;
+    }
+
+    public static final void setUnauthorizedUrl(String unauthorizedUrl) {
+        ShiroKit.unauthorizedUrl = unauthorizedUrl;
+    }
+
+    /**
+     * Session中保存的请求的Key值
+     * 
+     * @return
+     */
+    public static final String getSavedRequestKey() {
+        return SAVED_REQUEST_KEY;
+    }
 }

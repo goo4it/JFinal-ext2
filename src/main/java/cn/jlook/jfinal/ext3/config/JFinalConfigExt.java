@@ -26,7 +26,6 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.core.Const;
 import com.jfinal.ext.interceptor.POST;
-import com.jfinal.ext.route.AutoBindRoutes;
 import com.jfinal.ext2.handler.ActionExtentionHandler;
 import com.jfinal.ext2.interceptor.NotFoundActionInterceptor;
 import com.jfinal.ext2.interceptor.OnExceptionInterceptorExt;
@@ -39,7 +38,6 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.generator.BaseModelGenerator;
 import com.jfinal.plugin.activerecord.generator.Generator;
 import com.jfinal.plugin.druid.DruidPlugin;
-import com.jfinal.render.ViewType;
 import com.jfinal.upload.OreillyCos;
 
 import cn.jlook.jfinal.ext3.route.AutoBindRoutesExt;
@@ -97,7 +95,7 @@ public abstract class JFinalConfigExt extends JFinalConfig {
      * UploadedFileSaveDirectory : cfg basedir + appName <br/>
      */
     public void configConstant(Constants me) {
-        me.setViewType(ViewType.JSP);
+//        me.setViewType(ViewType.JSP);
         me.setDevMode(this.getAppDevMode());
         me.setEncoding(Const.DEFAULT_ENCODING);
         me.setError404View(PageViewKit.get404PageView());
